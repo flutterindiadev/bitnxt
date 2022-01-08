@@ -1,0 +1,30 @@
+<html>
+    <head>
+        <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+    </head>
+    <body>
+    <div class="tradingview-widget-container" id="tvchart"></div>
+    </body>
+    <script>
+        loadCharts();
+        function loadCharts(){
+            new TradingView.widget(
+    {
+    "autosize": true,
+    "symbol": "BINANCE:" + symbol,
+    "interval": "15",
+    "timezone": "Asia/Kolkata",
+    "theme": "dark",
+    "style": "1",
+    "locale": "in",
+    "toolbar_bg": "#f1f3f6",
+    "enable_publishing": false,
+    "hide_top_toolbar": true,
+    "withdateranges": true,
+    "allow_symbol_change": false,
+    "container_id": "tvchart"
+  });
+  console.log(symbol);
+        }
+    </script>
+</html>
