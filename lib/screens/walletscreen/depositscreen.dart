@@ -36,7 +36,7 @@ class _DepositScreenState extends State<DepositScreen> {
       appBar: myAppBar('Deposit ${routeArg['coinname'].toString()}', context),
       body: Container(
         height: MediaQuery.of(context).size.height,
-        color: Color(0xff17173D),
+        color: const Color(0xff17173D),
         child: Padding(
           padding: const EdgeInsets.all(10.0),
           child: Center(
@@ -44,36 +44,36 @@ class _DepositScreenState extends State<DepositScreen> {
               children: [
                 Text(
                   '${routeArg['coinname'].toString()} Deposit Address',
-                  style: TextStyle(
+                  style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
                       color: Colors.white),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 // Text(deposits.user.currencyData['']),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 ElevatedButton(
-                    onPressed: () {}, child: Text('Create deposit address')),
-                SizedBox(
+                    onPressed: () {}, child: const Text('Create deposit address')),
+                const SizedBox(
                   height: 20,
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
-                    color: Color(0xff41516a),
+                    color: const Color(0xff41516a),
                     height: MediaQuery.of(context).size.height / 2 + 100,
                     width: double.infinity,
                     child: Column(
                       children: [
-                        Chip(
+                        const Chip(
                             label: Text(
                           'Deposit History',
                           style: TextStyle(color: Colors.white),
                         )),
-                        Divider(),
+                        const Divider(),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
+                          children: const [
                             Text(
                               'TX Hash',
                               style: TextStyle(color: Colors.white),
@@ -84,7 +84,7 @@ class _DepositScreenState extends State<DepositScreen> {
                                 style: TextStyle(color: Colors.white))
                           ],
                         ),
-                        Divider(),
+                        const Divider(),
                         SizedBox(
                           height: MediaQuery.of(context).size.height / 2,
                           child: ListView.builder(
@@ -98,18 +98,18 @@ class _DepositScreenState extends State<DepositScreen> {
                                         MainAxisAlignment.spaceEvenly,
                                     children: [
                                       Text(
-                                        '${deposits.depositTransactions[index].transHash.substring(0, 5) + '...' + deposits.depositTransactions[index].transHash.substring(deposits.depositTransactions[index].transHash.length - 5, deposits.depositTransactions[index].transHash.length)}',
-                                        style: TextStyle(
+                                        deposits.depositTransactions[index].transHash.substring(0, 5) + '...' + deposits.depositTransactions[index].transHash.substring(deposits.depositTransactions[index].transHash.length - 5, deposits.depositTransactions[index].transHash.length),
+                                        style: const TextStyle(
                                             fontSize: 12,
                                             overflow: TextOverflow.ellipsis),
                                       ),
                                       Text(
-                                        '${(int.parse(deposits.depositTransactions[index].transValue) / 1000000000000000000).toStringAsFixed(5)}',
-                                        style: TextStyle(
+                                        (int.parse(deposits.depositTransactions[index].transValue) / 1000000000000000000).toStringAsFixed(5),
+                                        style: const TextStyle(
                                             fontSize: 12,
                                             fontWeight: FontWeight.bold),
                                       ),
-                                      Chip(
+                                      const Chip(
                                           label: Text(
                                         'Success',
                                         style: TextStyle(

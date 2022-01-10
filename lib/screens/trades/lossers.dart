@@ -12,7 +12,7 @@ class _lossersState extends State<lossers> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
-        children: [],
+        children: const [],
       ),
     );
   }

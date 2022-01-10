@@ -54,7 +54,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         }
       } else {
         ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('Something went wrong !')));
+            .showSnackBar(const SnackBar(content: Text('Something went wrong !')));
       }
     });
   }
@@ -64,7 +64,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return Scaffold(
       backgroundColor: Colors.black87,
       body: SingleChildScrollView(
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         child: Column(
           children: [
             Column(
@@ -72,9 +72,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 100),
-                Padding(
+                const Padding(
                   padding:
-                      const EdgeInsets.symmetric(vertical: 2, horizontal: 31),
+                      EdgeInsets.symmetric(vertical: 2, horizontal: 31),
                   child: Text(
                     "User Name",
                     style: TextStyle(fontSize: 14, color: Colors.white),
@@ -96,9 +96,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ),
                 const SizedBox(height: 30),
-                Padding(
+                const Padding(
                   padding:
-                      const EdgeInsets.symmetric(vertical: 2, horizontal: 31),
+                      EdgeInsets.symmetric(vertical: 2, horizontal: 31),
                   child: Text(
                     "Mobile Number",
                     style: TextStyle(fontSize: 14, color: Colors.white),
@@ -120,9 +120,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ),
                 const SizedBox(height: 30),
-                Padding(
+                const Padding(
                   padding:
-                      const EdgeInsets.symmetric(vertical: 2, horizontal: 31),
+                      EdgeInsets.symmetric(vertical: 2, horizontal: 31),
                   child: Text(
                     "Email ID",
                     style: TextStyle(fontSize: 14, color: Colors.white),
@@ -144,8 +144,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ),
                 const SizedBox(height: 30),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 31),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 31),
                   child: Text(
                     "Password",
                     style: TextStyle(fontSize: 14, color: Colors.white),

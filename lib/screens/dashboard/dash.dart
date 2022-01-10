@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 
 import 'package:bitnxt/global_widgets/myappbar.dart';
@@ -33,10 +32,13 @@ class _DashState extends State<Dash> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserProvider>(context);
+
+    // Map holding = user.user.currencyData;
+
     return Scaffold(
       appBar: myAppBar('Dashboard', context),
       body: _isLoading
-          ? Center(
+          ? const Center(
               child: Text(
                 'Connecting to exchange ...',
                 style: TextStyle(color: Colors.white),
@@ -44,7 +46,7 @@ class _DashState extends State<Dash> {
             )
           : SingleChildScrollView(
               child: Container(
-                color: Color(0xff17173D),
+                color: const Color(0xff17173D),
                 child: Column(
                   children: [
                     Padding(
@@ -52,7 +54,7 @@ class _DashState extends State<Dash> {
                       child: Column(
                         children: [
                           Row(
-                            children: [
+                            children: const [
                               Text(
                                 'My Porfolio (in USD)',
                                 style: TextStyle(
@@ -68,25 +70,27 @@ class _DashState extends State<Dash> {
                               children: [
                                 InkWell(
                                   child: Text(
-                                    '${num.parse(user.user.porfolioValue.toString()).toStringAsFixed(2)}',
-                                    style: TextStyle(
+                                    num.parse(
+                                            user.user.porfolioValue.toString())
+                                        .toStringAsFixed(2),
+                                    style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 20,
                                         color: Colors.white),
                                   ),
                                 ),
-                                Text(
+                                const Text(
                                   '+ 5.00% ^(24 Hr. Change%)',
                                   style: TextStyle(color: Colors.green),
                                 )
                               ],
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 40,
                           ),
                           Row(
-                            children: [
+                            children: const [
                               Text('My Holdings :',
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
@@ -144,7 +148,7 @@ class _DashState extends State<Dash> {
                                   return Padding(
                                     padding: const EdgeInsets.all(10.0),
                                     child: Card(
-                                      color: Color(0xff343cb4),
+                                      color: const Color(0xff343cb4),
                                       child: Padding(
                                         padding: const EdgeInsets.all(12.0),
                                         child: Column(
@@ -158,13 +162,13 @@ class _DashState extends State<Dash> {
                                               children: [
                                                 Text(
                                                   coinname,
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                       color: Colors.white),
                                                 ),
                                                 Text(
                                                   user.user.supportedCurrencies[
                                                       index],
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                       color: Colors.white),
                                                 ),
                                               ],
@@ -184,30 +188,38 @@ class _DashState extends State<Dash> {
                                                           (num.parse(change))
                                                               .toStringAsFixed(
                                                                   2),
-                                                      style: TextStyle(
+                                                      style: const TextStyle(
                                                           color: Colors.green),
                                                     ),
                                                   if (num.parse(change) < 0)
                                                     Text(
                                                       (num.parse(change))
                                                           .toStringAsFixed(2),
-                                                      style: TextStyle(
+                                                      style: const TextStyle(
                                                           color: Colors.red),
                                                     ),
                                                   if (num.parse(
                                                           changePercentage) >
                                                       0)
                                                     Text(
-                                                      '${'+ ' + (num.parse(changePercentage)).toStringAsFixed(2) + '%'}',
-                                                      style: TextStyle(
+                                                      '+ ' +
+                                                          (num.parse(
+                                                                  changePercentage))
+                                                              .toStringAsFixed(
+                                                                  2) +
+                                                          '%',
+                                                      style: const TextStyle(
                                                           color: Colors.green),
                                                     ),
                                                   if (num.parse(
                                                           changePercentage) <
                                                       0)
                                                     Text(
-                                                      '${num.parse(changePercentage).toStringAsFixed(2) + '%'}',
-                                                      style: TextStyle(
+                                                      num.parse(changePercentage)
+                                                              .toStringAsFixed(
+                                                                  2) +
+                                                          '%',
+                                                      style: const TextStyle(
                                                           color: Colors.red),
                                                     )
                                                 ]),
@@ -216,7 +228,7 @@ class _DashState extends State<Dash> {
                                                   MainAxisAlignment.center,
                                               children: [
                                                 Text(
-                                                  '${price} USD',
+                                                  '$price USD',
                                                   style: TextStyle(
                                                       color: Theme.of(context)
                                                           .primaryColor),
@@ -232,32 +244,32 @@ class _DashState extends State<Dash> {
                               ),
                             ),
                           ),
-                          Divider(),
+                          const Divider(),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 8),
                             child: Row(
                               children: [
-                                Text('My Favorites',
+                                const Text('My Favorites',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         color: Colors.white)),
-                                Spacer(),
+                                const Spacer(),
                                 InkWell(
                                   onTap: () {},
-                                  child: Text(
+                                  child: const Text(
                                     'View All',
                                     style: TextStyle(color: Colors.blue),
                                   ),
                                 ),
-                                Icon(
+                                const Icon(
                                   Icons.arrow_right,
                                   color: Colors.white,
                                 ),
                               ],
                             ),
                           ),
-                          Divider(),
-                          SizedBox(
+                          const Divider(),
+                          const SizedBox(
                               height: 210,
                               child: Center(
                                   child: Text(

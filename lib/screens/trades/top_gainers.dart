@@ -12,7 +12,7 @@ class _topGainersState extends State<topGainers> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
-        children: [],
+        children: const [],
       ),
     );
   }

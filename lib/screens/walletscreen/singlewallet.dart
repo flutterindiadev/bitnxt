@@ -22,18 +22,15 @@ class _SingleWalletScreenState extends State<SingleWalletScreen> {
       final arg = ModalRoute.of(context)!.settings.arguments as Map;
       print(arg.toString());
       final user = Provider.of<UserProvider>(context, listen: false);
-      if (user
-              .user
-              .currencyData[
-                  '${arg['symbol'].toString().toLowerCase() + 'address'}']
+      if (user.user
+              .currencyData[arg['symbol'].toString().toLowerCase() + 'address']
               .toString() ==
           null) {
         await Provider.of<UserProvider>(context, listen: false)
             .getDepositAddress(arg['id']);
         String add = Provider.of<UserProvider>(context, listen: false)
             .user
-            .currencyData[
-                '${arg['symbol'].toString().toLowerCase() + 'address'}']
+            .currencyData[arg['symbol'].toString().toLowerCase() + 'address']
             .toString();
 
         if (mounted) {
@@ -44,8 +41,7 @@ class _SingleWalletScreenState extends State<SingleWalletScreen> {
       } else {
         final add = Provider.of<UserProvider>(context, listen: false)
             .user
-            .currencyData[
-                '${arg['symbol'].toString().toLowerCase() + 'address'}']
+            .currencyData[arg['symbol'].toString().toLowerCase() + 'address']
             .toString();
 
         if (mounted) {
@@ -65,24 +61,24 @@ class _SingleWalletScreenState extends State<SingleWalletScreen> {
     return Scaffold(
       appBar: myAppBar(routeArgs['coinname'].toString(), context),
       body: Container(
-        color: Color(0xff17173D),
+        color: const Color(0xff17173D),
         child: Padding(
-          padding: EdgeInsets.all(10),
+          padding: const EdgeInsets.all(10),
           child: Center(
             child: Column(
               children: [
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Text(
                   routeArgs['coinname'].toString() + ' Deposit Address',
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Colors.white, fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Text(address,
                     // user.user.currencyData[
                     //     '${routeArgs['coinname'].toString().toLowerCase() + 'address'}'],
-                    style: TextStyle(color: Colors.white)),
-                Divider(),
+                    style: const TextStyle(color: Colors.white)),
+                const Divider(),
                 Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Row(
@@ -98,26 +94,27 @@ class _SingleWalletScreenState extends State<SingleWalletScreen> {
                               'Deposit ${routeArgs['coinname'].toString()}')),
                       ElevatedButton(
                           onPressed: () {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                content: Text(
-                                    'Withdrawls have been disabled temporarily')));
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text(
+                                        'Withdrawls have been disabled temporarily')));
                           },
                           child: Text(
                               'Withdraw ${routeArgs['coinname'].toString()}'))
                     ],
                   ),
                 ),
-                Divider(),
-                Container(
+                const Divider(),
+                SizedBox(
                   height: MediaQuery.of(context).size.height / 2 + 40,
                   child: Column(
                     children: [
-                      Text('Transaction History',
+                      const Text('Transaction History',
                           style: TextStyle(color: Colors.white)),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       Container(
                         height: MediaQuery.of(context).size.height / 2,
-                        color: Color(0xff41516a),
+                        color: const Color(0xff41516a),
                       )
                     ],
                   ),

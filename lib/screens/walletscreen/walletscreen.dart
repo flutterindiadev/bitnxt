@@ -20,31 +20,31 @@ class _WalletScreenState extends State<WalletScreen> {
     return Scaffold(
       appBar: myAppBar('Wallets', context),
       body: Container(
-        color: Color(0xff17173D),
+        color: const Color(0xff17173D),
         height: MediaQuery.of(context).size.height,
         child: Padding(
-          padding: EdgeInsets.only(top: 20),
+          padding: const EdgeInsets.only(top: 20),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(
-                '${num.parse(userBalances.user.porfolioValue.toString()).toStringAsFixed(2)}',
-                style: TextStyle(
+                num.parse(userBalances.user.porfolioValue.toString()).toStringAsFixed(2),
+                style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                     color: Colors.white),
               ),
-              Text(
+              const Text(
                 'Total Porfolio Value (in USD)',
                 style: TextStyle(color: Colors.white),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
+              const Padding(
+                padding: EdgeInsets.all(10.0),
               ),
-              Container(
+              SizedBox(
                 height: MediaQuery.of(context).size.height * 0.60,
                 child: ListView.builder(
                   itemCount: userBalances.user.supportedCurrencies.length,
@@ -82,13 +82,13 @@ class _WalletScreenState extends State<WalletScreen> {
                             'price']
                         .toString();
                     String coinValue =
-                        '${(num.parse(bal) * num.parse(price)).toStringAsFixed(2) + ' USD'}';
+                        (num.parse(bal) * num.parse(price)).toStringAsFixed(2) + ' USD';
                     return Card(
-                      color: Color(0xff41516a),
+                      color: const Color(0xff41516a),
                       elevation: 0,
                       child: Container(
                           padding:
-                              EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                              const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -105,14 +105,14 @@ class _WalletScreenState extends State<WalletScreen> {
                                 },
                                 child: Row(
                                   children: [
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 10,
                                     ),
-                                    Container(
+                                    SizedBox(
                                         height: 30,
                                         width: 30,
                                         child: Image.network(image)),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 10,
                                     ),
                                     Column(
@@ -122,32 +122,32 @@ class _WalletScreenState extends State<WalletScreen> {
                                         Text(
                                           userBalances
                                               .user.supportedCurrencies[index],
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               fontWeight: FontWeight.bold,
                                               color: Colors.white),
                                         ),
                                         Text(coinname,
                                             style:
-                                                TextStyle(color: Colors.white))
+                                                const TextStyle(color: Colors.white))
                                       ],
                                     ),
-                                    Spacer(),
+                                    const Spacer(),
                                     Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.end,
                                       children: [
                                         Text(bal,
                                             style:
-                                                TextStyle(color: Colors.white)),
+                                                const TextStyle(color: Colors.white)),
                                         Text(coinValue,
                                             style:
-                                                TextStyle(color: Colors.white))
+                                                const TextStyle(color: Colors.white))
                                       ],
                                     ),
                                   ],
                                 ),
                               ),
-                              Divider(),
+                              const Divider(),
                             ],
                           )),
                     );

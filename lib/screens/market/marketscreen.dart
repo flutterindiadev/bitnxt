@@ -33,7 +33,7 @@ class _MarketScreenState extends State<MarketScreen> {
     return Scaffold(
       appBar: myAppBar('Markets', context),
       body: Container(
-        color: Color(0xff17173D),
+        color: const Color(0xff17173D),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: SingleChildScrollView(
@@ -126,7 +126,7 @@ class _MarketScreenState extends State<MarketScreen> {
                     )
                   ],
                 ),
-                Container(
+                SizedBox(
                   height: MediaQuery.of(context).size.height * 0.8,
                   width: MediaQuery.of(context).size.width,
                   child: Center(
@@ -140,7 +140,7 @@ class _MarketScreenState extends State<MarketScreen> {
                             if (markets.marketData[index].symbol
                                 .toString()
                                 .endsWith('inr')) {
-                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                                   content: Text(
                                       'Chart not available for the selected pair !')));
                             } else {
@@ -149,11 +149,11 @@ class _MarketScreenState extends State<MarketScreen> {
                                   arguments: sym[0] + sym[1]);
                             }
                           },
-                          child: Container(
+                          child: SizedBox(
                             height: 50,
                             width: 100,
                             child: Card(
-                              color: Color(0xff41516a),
+                              color: const Color(0xff41516a),
                               elevation: 0,
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
@@ -164,14 +164,14 @@ class _MarketScreenState extends State<MarketScreen> {
                                     Text(
                                       markets.marketData[index].symbol
                                           .toUpperCase(),
-                                      style: TextStyle(color: Colors.white),
+                                      style: const TextStyle(color: Colors.white),
                                     ),
-                                    Spacer(),
+                                    const Spacer(),
                                     Text(
                                         markets.marketData[index].price
                                             .toStringAsFixed(4),
-                                        style: TextStyle(color: Colors.white)),
-                                    SizedBox(
+                                        style: const TextStyle(color: Colors.white)),
+                                    const SizedBox(
                                       width: 10,
                                     ),
                                     if (markets.marketData[index]
@@ -183,7 +183,7 @@ class _MarketScreenState extends State<MarketScreen> {
                                                 .changePercentage
                                                 .toStringAsFixed(4) +
                                             '%',
-                                        style: TextStyle(color: Colors.green),
+                                        style: const TextStyle(color: Colors.green),
                                       ),
                                     if (markets.marketData[index]
                                             .changePercentage <
@@ -193,7 +193,7 @@ class _MarketScreenState extends State<MarketScreen> {
                                                 .changePercentage
                                                 .toStringAsFixed(4) +
                                             '%',
-                                        style: TextStyle(color: Colors.red),
+                                        style: const TextStyle(color: Colors.red),
                                       )
                                   ],
                                 ),

@@ -26,7 +26,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
   TextEditingController amountController = TextEditingController();
 
   Future<Map<String, dynamic>> getData(context) async {
-    return Future.delayed(Duration(seconds: 0),
+    return Future.delayed(const Duration(seconds: 0),
         () => {'pair': ModalRoute.of(context)!.settings.arguments.toString()});
   }
 
@@ -35,9 +35,9 @@ class _BottomNavbarState extends State<BottomNavbar> {
         Provider.of<UserProvider>(context, listen: false).user.currencyData;
     String tradingPair = ModalRoute.of(context)!.settings.arguments.toString();
     String currencyId1 =
-        c['${tradingPair.substring(0, (tradingPair.length - 3)) + 'id'}'];
+        c[tradingPair.substring(0, (tradingPair.length - 3)) + 'id'];
     String currencyId2 =
-        c['${tradingPair.substring((tradingPair.length - 3)) + 'id'}'];
+        c[tradingPair.substring((tradingPair.length - 3)) + 'id'];
 
     Map data = {
       "type": "BUY",
@@ -65,9 +65,9 @@ class _BottomNavbarState extends State<BottomNavbar> {
         Provider.of<UserProvider>(context, listen: false).user.currencyData;
     String tradingPair = ModalRoute.of(context)!.settings.arguments.toString();
     String currencyId1 =
-        c['${tradingPair.substring(0, (tradingPair.length - 3)) + 'id'}'];
+        c[tradingPair.substring(0, (tradingPair.length - 3)) + 'id'];
     String currencyId2 =
-        c['${tradingPair.substring((tradingPair.length - 3)) + 'id'}'];
+        c[tradingPair.substring((tradingPair.length - 3)) + 'id'];
     Map data = {
       "type": "SELL",
       "price": price,
@@ -127,7 +127,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
         controller: _pageController,
         children: _screens,
         onPageChanged: _onPageChanged,
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
       ),
       bottomNavigationBar: BottomNavigationBar(
           onTap: onTabTapped,
@@ -149,7 +149,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
                 icon: Icon(Icons.manage_accounts), label: 'My Orders'),
           ],
           iconSize: 30,
-          backgroundColor: Color(0xff0108DD),
+          backgroundColor: const Color(0xff0108DD),
           selectedItemColor: Colors.yellow,
           unselectedItemColor: Colors.white),
       floatingActionButton: FloatingActionButton(
@@ -160,7 +160,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
               context: context,
               builder: (BuildContext context) {
                 return Padding(
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   child: DefaultTabController(
                       length: 2,
                       initialIndex: 0,
@@ -182,21 +182,21 @@ class _BottomNavbarState extends State<BottomNavbar> {
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold)))
                           ]),
-                          Container(
+                          SizedBox(
                             height: MediaQuery.of(context).size.height / 2 - 30,
                             child: TabBarView(
                               children: [
                                 Padding(
-                                  padding: EdgeInsets.all(10),
+                                  padding: const EdgeInsets.all(10),
                                   child: Form(
                                     child: Column(
                                       children: [
-                                        SizedBox(height: 10),
+                                        const SizedBox(height: 10),
                                         Text(
                                             'Available ${data['pair'].toString().substring(0, (data['pair'].toString().length - 3))} : ${userData.user.currencyData['${data['pair'].toString().substring(0, (data['pair'].toString().length - 3))}balance']}',
-                                            style:
-                                                TextStyle(color: Colors.white)),
-                                        Text(
+                                            style: const TextStyle(
+                                                color: Colors.white)),
+                                        const Text(
                                           'Limit Order',
                                           style: TextStyle(color: Colors.white),
                                         ),
@@ -207,26 +207,29 @@ class _BottomNavbarState extends State<BottomNavbar> {
                                               child: TextFormField(
                                                 keyboardType:
                                                     TextInputType.number,
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                     color: Colors.white),
                                                 controller: priceController,
-                                                decoration: InputDecoration(
-                                                    hintText: 'Enter BUY Price',
-                                                    hintStyle: TextStyle(
-                                                        color: Colors.white)),
+                                                decoration:
+                                                    const InputDecoration(
+                                                        hintText:
+                                                            'Enter BUY Price',
+                                                        hintStyle: TextStyle(
+                                                            color:
+                                                                Colors.white)),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               flex: 1,
-                                              child: Container(
+                                              child: SizedBox(
                                                   width: 30,
                                                   height: 30,
                                                   child: Icon(Icons.add,
                                                       color: Colors.white)),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               flex: 1,
-                                              child: Container(
+                                              child: SizedBox(
                                                 width: 30,
                                                 height: 30,
                                                 child: Icon(
@@ -239,21 +242,23 @@ class _BottomNavbarState extends State<BottomNavbar> {
                                         ),
                                         TextFormField(
                                           keyboardType: TextInputType.number,
-                                          style: TextStyle(color: Colors.white),
+                                          style: const TextStyle(
+                                              color: Colors.white),
                                           controller: amountController,
-                                          decoration: InputDecoration(
+                                          decoration: const InputDecoration(
                                               hintText: 'Enter Amount',
                                               hintStyle: TextStyle(
                                                   color: Colors.white)),
                                         ),
                                         TextFormField(
-                                          style: TextStyle(color: Colors.white),
-                                          decoration: InputDecoration(
+                                          style: const TextStyle(
+                                              color: Colors.white),
+                                          decoration: const InputDecoration(
                                               hintText: '0.00',
                                               hintStyle: TextStyle(
                                                   color: Colors.white)),
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 20,
                                         ),
                                         ElevatedButton(
@@ -262,21 +267,21 @@ class _BottomNavbarState extends State<BottomNavbar> {
                                                   priceController.text,
                                                   amountController.text);
                                             },
-                                            child: Text('BUY'))
+                                            child: const Text('BUY'))
                                       ],
                                     ),
                                   ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsets.all(10),
+                                  padding: const EdgeInsets.all(10),
                                   child: Form(
                                     child: Column(
                                       children: [
                                         Text(
                                             'Available ${data['pair'].toString().substring((data['pair'].toString().length - 3))} : ${userData.user.currencyData['${data['pair'].toString().substring((data['pair'].toString().length - 3))}balance']}',
-                                            style:
-                                                TextStyle(color: Colors.white)),
-                                        Text(
+                                            style: const TextStyle(
+                                                color: Colors.white)),
+                                        const Text(
                                           'Limit Order',
                                           style: TextStyle(color: Colors.white),
                                         ),
@@ -287,30 +292,32 @@ class _BottomNavbarState extends State<BottomNavbar> {
                                               child: TextFormField(
                                                 keyboardType:
                                                     TextInputType.number,
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                     color: Colors.white),
                                                 controller: priceController,
-                                                decoration: InputDecoration(
-                                                    hintText:
-                                                        'Enter SELL Price',
-                                                    hintStyle: TextStyle(
-                                                        color: Colors.white)),
+                                                decoration:
+                                                    const InputDecoration(
+                                                        hintText:
+                                                            'Enter SELL Price',
+                                                        hintStyle: TextStyle(
+                                                            color:
+                                                                Colors.white)),
                                               ),
                                             ),
                                             Expanded(
                                               flex: 1,
-                                              child: Container(
+                                              child: SizedBox(
                                                   width: 30,
                                                   height: 30,
-                                                  child: Icon(Icons.add,
+                                                  child: const Icon(Icons.add,
                                                       color: Colors.white)),
                                             ),
                                             Expanded(
                                               flex: 1,
-                                              child: Container(
+                                              child: SizedBox(
                                                 width: 30,
                                                 height: 30,
-                                                child: Icon(
+                                                child: const Icon(
                                                   Icons.remove,
                                                   color: Colors.white,
                                                 ),
@@ -320,15 +327,17 @@ class _BottomNavbarState extends State<BottomNavbar> {
                                         ),
                                         TextFormField(
                                           controller: amountController,
-                                          style: TextStyle(color: Colors.white),
-                                          decoration: InputDecoration(
+                                          style: const TextStyle(
+                                              color: Colors.white),
+                                          decoration: const InputDecoration(
                                               hintText: 'Enter Amount Price',
                                               hintStyle: TextStyle(
                                                   color: Colors.white)),
                                         ),
                                         TextFormField(
-                                          style: TextStyle(color: Colors.white),
-                                          decoration: InputDecoration(
+                                          style: const TextStyle(
+                                              color: Colors.white),
+                                          decoration: const InputDecoration(
                                               hintText: '0.00',
                                               hintStyle: TextStyle(
                                                   color: Colors.white)),
@@ -339,7 +348,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
                                                   priceController.text,
                                                   amountController.text);
                                             },
-                                            child: Text('SELL'))
+                                            child: const Text('SELL'))
                                       ],
                                     ),
                                   ),
@@ -352,7 +361,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
                 );
               });
         },
-        child: Icon(
+        child: const Icon(
           Icons.add_chart,
           color: Colors.black,
         ),

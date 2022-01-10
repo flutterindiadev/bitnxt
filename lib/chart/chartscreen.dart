@@ -29,7 +29,7 @@ class _ChartScreenState extends State<ChartScreen>
             //     Flexible(
             //         child:
             WebView(
-      backgroundColor: Color(0xff17173D),
+      backgroundColor: const Color(0xff17173D),
       javascriptMode: JavascriptMode.unrestricted,
       initialUrl: '',
       onWebViewCreated: (WebViewController webViewController) {
@@ -50,6 +50,5 @@ class _ChartScreenState extends State<ChartScreen>
   }
 
   @override
-  // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 }

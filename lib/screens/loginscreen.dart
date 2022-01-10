@@ -20,7 +20,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
         body: Stack(children: [
       Container(
-        decoration: BoxDecoration(color: Color(0xff17173D)),
+        decoration: const BoxDecoration(color: Color(0xff17173D)),
       ),
       SingleChildScrollView(
         child: Column(
@@ -86,7 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 user.login(
                     emailController.text, passwordController.text, context);
               },
-              child: Container(
+              child: SizedBox(
                   height: 50,
                   width: 50,
                   child: Image.asset('assets/images/login.png')),
@@ -95,10 +95,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 onPressed: () {
                   Navigator.of(context).pushNamed(RegisterScreen.routename);
                 },
-                child: Text('Register Now')),
+                child: const Text('Register Now')),
             Align(
               alignment: Alignment.bottomCenter,
-              child: Container(
+              child: SizedBox(
                   height: 300,
                   width: 300,
                   child: Image.asset(

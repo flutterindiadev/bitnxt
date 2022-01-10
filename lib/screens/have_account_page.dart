@@ -17,7 +17,7 @@ class _HaveAccountState extends State<HaveAccount> {
       body: Stack(
         children: [
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/images/start.jpg'),
                 fit: BoxFit.fill,
@@ -27,7 +27,7 @@ class _HaveAccountState extends State<HaveAccount> {
           Column(
             children: [
               // Image.asset("assets/images/1234.png"),
-              SizedBox(
+              const SizedBox(
                 height: 500,
               ),
               Row(
@@ -39,12 +39,12 @@ class _HaveAccountState extends State<HaveAccount> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => LoginScreen()));
+                                builder: (context) => const LoginScreen()));
                       },
                       child: MyButton(
                         text: "Sign In",
                       )),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                   GestureDetector(
@@ -52,7 +52,7 @@ class _HaveAccountState extends State<HaveAccount> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => RegisterScreen()));
+                                builder: (context) => const RegisterScreen()));
                       },
                       child: MyButton(
                         text: "Register",

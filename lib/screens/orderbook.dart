@@ -46,7 +46,7 @@ class _OrderBookScreenState extends State<OrderBookScreen>
               type: parsedJson[i]['type']));
         }
       }
-      if (this.mounted) {
+      if (mounted) {
         setState(() {
           buyOrders;
         });
@@ -80,7 +80,7 @@ class _OrderBookScreenState extends State<OrderBookScreen>
               type: parsedJson[i]['type']));
         }
       }
-      if (this.mounted) {
+      if (mounted) {
         setState(() {
           sellOrders;
         });
@@ -98,7 +98,7 @@ class _OrderBookScreenState extends State<OrderBookScreen>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Container(
+    return SizedBox(
         height: 500,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -106,14 +106,14 @@ class _OrderBookScreenState extends State<OrderBookScreen>
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Container(
+              child: SizedBox(
                 height: 400,
                 width: MediaQuery.of(context).size.width / 2.2,
                 child: Column(
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
+                      children: const [
                         Text(
                           'Volume',
                           style: TextStyle(color: Colors.white),
@@ -121,7 +121,7 @@ class _OrderBookScreenState extends State<OrderBookScreen>
                         Text('Buy Price', style: TextStyle(color: Colors.white))
                       ],
                     ),
-                    Container(
+                    SizedBox(
                       height: 300,
                       child: ListView.builder(
                         itemCount: buyOrders.length,
@@ -137,9 +137,10 @@ class _OrderBookScreenState extends State<OrderBookScreen>
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text('${buyOrders[index].amount}',
-                                      style: TextStyle(color: Colors.black)),
-                                  Text('${buyOrders[index].price}',
+                                  Text(buyOrders[index].amount,
+                                      style:
+                                          const TextStyle(color: Colors.black)),
+                                  Text(buyOrders[index].price,
                                       style: TextStyle(
                                           color: Colors.green[900],
                                           fontWeight: FontWeight.bold))
@@ -154,23 +155,23 @@ class _OrderBookScreenState extends State<OrderBookScreen>
                 ),
               ),
             ),
-            Divider(),
+            const Divider(),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Container(
+              child: SizedBox(
                 height: 400,
                 width: MediaQuery.of(context).size.width / 2.2,
                 child: Column(
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
+                      children: const [
                         Text('Sell Price',
                             style: TextStyle(color: Colors.white)),
                         Text('Volume', style: TextStyle(color: Colors.white))
                       ],
                     ),
-                    Container(
+                    SizedBox(
                       height: 300,
                       child: ListView.builder(
                         itemCount: sellOrders.length,
@@ -185,9 +186,10 @@ class _OrderBookScreenState extends State<OrderBookScreen>
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text('${sellOrders[index].price}',
-                                      style: TextStyle(color: Colors.black)),
-                                  Text('${sellOrders[index].amount}',
+                                  Text(sellOrders[index].price,
+                                      style:
+                                          const TextStyle(color: Colors.black)),
+                                  Text(sellOrders[index].amount,
                                       style: TextStyle(
                                           color: Colors.red[900],
                                           fontWeight: FontWeight.bold))
@@ -207,6 +209,5 @@ class _OrderBookScreenState extends State<OrderBookScreen>
   }
 
   @override
-  // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 }

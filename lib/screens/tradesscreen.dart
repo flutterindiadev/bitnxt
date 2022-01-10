@@ -76,7 +76,7 @@ class _TradesScreenState extends State<TradesScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
+                children: const [
                   Text(
                     'TIME',
                     style: TextStyle(color: Colors.white),
@@ -92,7 +92,7 @@ class _TradesScreenState extends State<TradesScreen> {
                 ],
               ),
             ),
-            Container(
+            SizedBox(
               height: MediaQuery.of(context).size.height * 0.7,
               width: MediaQuery.of(context).size.width - 20,
               child: ListView.builder(
@@ -110,8 +110,8 @@ class _TradesScreenState extends State<TradesScreen> {
                           children: [
                             Text(
                               //converted unix timestamp
-                              '${DateFormat.jms().format(DateTime.fromMicrosecondsSinceEpoch(int.parse(closedTrades[index].createdTime.toString()) * 1000)).toString().substring(0, DateFormat.jms().format(DateTime.fromMicrosecondsSinceEpoch(int.parse(closedTrades[index].createdTime.toString()) * 1000)).toString().length - 3)}',
-                              style: TextStyle(color: Colors.black87),
+                              DateFormat.jms().format(DateTime.fromMicrosecondsSinceEpoch(int.parse(closedTrades[index].createdTime.toString()) * 1000)).toString().substring(0, DateFormat.jms().format(DateTime.fromMicrosecondsSinceEpoch(int.parse(closedTrades[index].createdTime.toString()) * 1000)).toString().length - 3),
+                              style: const TextStyle(color: Colors.black87),
                             ),
                             Text(closedTrades[index].price.toString(),
                                 style: TextStyle(
@@ -120,7 +120,7 @@ class _TradesScreenState extends State<TradesScreen> {
                             Text(
                                 (num.parse(closedTrades[index].fill))
                                     .toStringAsFixed(4),
-                                style: TextStyle(color: Colors.black87))
+                                style: const TextStyle(color: Colors.black87))
                           ],
                         ),
                       ));

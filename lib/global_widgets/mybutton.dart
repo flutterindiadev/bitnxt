@@ -12,7 +12,7 @@ class MyButton extends StatelessWidget {
     return Container(
         height: 45,
         width: 170,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           // color: Colors.black26,
           borderRadius: BorderRadius.all(Radius.circular(40)),
           gradient: LinearGradient(
@@ -27,7 +27,7 @@ class MyButton extends StatelessWidget {
 
         ),
         child:Center(child:
-        Text(text, style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600),))
+        Text(text, style: const TextStyle(fontSize: 20,fontWeight: FontWeight.w600),))
     );
   }
 }

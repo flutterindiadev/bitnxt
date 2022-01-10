@@ -1,3 +1,4 @@
+import 'package:bitnxt/screens/dashboard/newdash.dart';
 import 'package:flutter/material.dart';
 import 'package:bitnxt/screens/dashboard/dash.dart';
 import 'package:bitnxt/screens/market/marketscreen.dart';
@@ -15,10 +16,10 @@ class BottomNav extends StatefulWidget {
 
 class _BottomNavState extends State<BottomNav> {
   final List<Widget> _widgetOptions = <Widget>[
-    Dash(),
-    MarketScreen(),
-    WalletScreen(),
-    MyProfileScreen()
+    const NewDash(),
+    const MarketScreen(),
+    const WalletScreen(),
+    const MyProfileScreen()
   ];
   int _selectedIndex = 0;
 
@@ -59,7 +60,7 @@ class _BottomNavState extends State<BottomNav> {
           // elevation: 5,
           iconSize: 30,
           // unselectedFontSize: 40,
-          backgroundColor: Color(0xff0108DD),
+          backgroundColor: const Color(0xff0108DD),
           selectedItemColor: Colors.yellowAccent,
           unselectedItemColor: Colors.white,
           onTap: _onItemTapped,

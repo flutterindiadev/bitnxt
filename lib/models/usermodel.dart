@@ -12,6 +12,7 @@ import 'package:bitnxt/utils/appurl.dart';
 class User {
   String id = '';
   String customerId = '';
+  String email = '';
   List supportedCurrencies = [
     'BTC',
     'ETH',
@@ -39,11 +40,11 @@ class DepositTransaction {
 // userid = '619e2b4fbb2ab01b3c95774c'
 
 class UserProvider with ChangeNotifier {
-  User _user = User();
+  final User _user = User();
 
   User get user => _user;
 
-  List<DepositTransaction> _depositTransactions = [];
+  final List<DepositTransaction> _depositTransactions = [];
 
   List<DepositTransaction> get depositTransactions {
     return [..._depositTransactions];
@@ -74,8 +75,10 @@ class UserProvider with ChangeNotifier {
     final response = await http.post(Uri.parse(AppUrl.loginUrl),
         body: {'email': email, 'password': password});
     final parsedJson = json.decode(response.body);
+    print(parsedJson);
     if (parsedJson['status'] == true) {
       user.id = parsedJson['user']['id'].toString();
+      user.email = parsedJson['user']['email'].toString();
 
       // await getAccount();
       try {
@@ -135,13 +138,13 @@ class UserProvider with ChangeNotifier {
       } catch (e) {
         print(e.toString());
         ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Login Failed ! Plase try again later !')));
+            const SnackBar(content: Text('Login Failed ! Plase try again later !')));
       }
 
       //navigate
       Navigator.of(context).pushNamed(BottomNav.routename);
 
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text('Login Successful !'),
         backgroundColor: Colors.green,
       ));

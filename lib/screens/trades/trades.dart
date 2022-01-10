@@ -30,10 +30,10 @@ class _TradesState extends State<Trades> {
           elevation: 5,
           bottom: TabBar(
             indicator: ShapeDecoration(
-                shape: UnderlineInputBorder(),
+                shape: const UnderlineInputBorder(),
                 gradient: LinearGradient(
                     colors: [constant.blkcolor, constant.whicolor])),
-            tabs: [
+            tabs: const [
               Tab(text: "Volume"),
               Tab(text: "Top Gainers"),
               Tab(text: "Lossers"),
@@ -41,7 +41,7 @@ class _TradesState extends State<Trades> {
             ],
           ),
         ),
-        body: TabBarView(
+        body: const TabBarView(
           children: [volume(), topGainers(), lossers(), VolumeTwentyFour()],
         ),
       ),

@@ -12,7 +12,7 @@ class _VolumeTwentyFourState extends State<VolumeTwentyFour> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
-        children: [],
+        children: const [],
       ),
     );
   }

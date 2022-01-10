@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:bitnxt/global_widgets/myappbar.dart';
 
 class MyOpenOrders extends StatelessWidget {
   final Map<String, dynamic> data;
@@ -7,8 +6,7 @@ class MyOpenOrders extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      // appBar: myAppBar('My Orders'),
+    return const Scaffold(
       body: Center(
         child: Text(
           'No open orders',
