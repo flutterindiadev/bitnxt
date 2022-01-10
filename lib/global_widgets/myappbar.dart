@@ -20,7 +20,7 @@ PreferredSizeWidget myAppBar(
                 duration: Duration(seconds: 1),
               ));
             } else {
-              Navigator.of(context).pushReplacementNamed(BottomNav.routename);
+              Navigator.of(context).pop();
             }
           },
           child: const Icon(

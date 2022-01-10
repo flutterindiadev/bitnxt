@@ -1,3 +1,4 @@
+import 'package:bitnxt/screens/dashboard/newdash.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:bitnxt/chart/chartscreen.dart';
@@ -41,7 +42,7 @@ class MyApp extends StatelessWidget {
         routes: {
           '/': (ctx) => const LoginScreen(),
           // candleStickChart.routename: (ctx) => candleStickChart(),
-          Dash.routename: (ctx) => const Dash(),
+          NewDash.routename: (ctx) => const NewDash(),
           RegisterScreen.routename: (ctx) => const RegisterScreen(),
           WalletScreen.routename: (ctx) => const WalletScreen(),
           DepositScreen.routename: (ctx) => const DepositScreen(),

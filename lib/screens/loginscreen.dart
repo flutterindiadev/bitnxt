@@ -81,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 50),
               ],
             ),
-            GestureDetector(
+            InkWell(
               onTap: () {
                 user.login(
                     emailController.text, passwordController.text, context);
