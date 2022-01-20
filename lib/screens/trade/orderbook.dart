@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
-import 'package:bitnxt/constants/config.dart';
-import 'package:bitnxt/models/ordermodel.dart';
-import 'package:bitnxt/utils/appurl.dart';
+import '../../constants/config.dart';
+import '../../models/ordermodel.dart';
+import '../../utils/appurl.dart';
 
 class OrderBookScreen extends StatefulWidget {
   final Map<String, dynamic> data;
@@ -107,7 +107,7 @@ class _OrderBookScreenState extends State<OrderBookScreen>
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: SizedBox(
-                height: 400,
+                height: MediaQuery.of(context).size.height * 0.8,
                 width: MediaQuery.of(context).size.width / 2.2,
                 child: Column(
                   children: [
@@ -122,7 +122,7 @@ class _OrderBookScreenState extends State<OrderBookScreen>
                       ],
                     ),
                     SizedBox(
-                      height: 300,
+                      height: MediaQuery.of(context).size.height * 0.75,
                       child: ListView.builder(
                         itemCount: buyOrders.length,
                         itemBuilder: (BuildContext context, int index) {
@@ -159,7 +159,7 @@ class _OrderBookScreenState extends State<OrderBookScreen>
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: SizedBox(
-                height: 400,
+                height: MediaQuery.of(context).size.height * 0.8,
                 width: MediaQuery.of(context).size.width / 2.2,
                 child: Column(
                   children: [
@@ -172,7 +172,7 @@ class _OrderBookScreenState extends State<OrderBookScreen>
                       ],
                     ),
                     SizedBox(
-                      height: 300,
+                      height: MediaQuery.of(context).size.height * 0.78,
                       child: ListView.builder(
                         itemCount: sellOrders.length,
                         itemBuilder: (BuildContext context, int index) {

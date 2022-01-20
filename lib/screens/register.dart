@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
-import 'package:bitnxt/global_widgets/mybutton.dart';
-import 'package:bitnxt/models/usermodel.dart';
-import 'package:bitnxt/screens/walletscreen/walletscreen.dart';
-import 'package:bitnxt/utils/appurl.dart';
+import '../global_widgets/mybutton.dart';
+import '../models/usermodel.dart';
+import 'walletscreen/walletscreen.dart';
+import '../utils/appurl.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -53,8 +53,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
               currency.key, currency.value, parsedJson['user_id'].toString());
         }
       } else {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text('Something went wrong !')));
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Something went wrong !')));
       }
     });
   }
@@ -73,8 +73,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               children: [
                 const SizedBox(height: 100),
                 const Padding(
-                  padding:
-                      EdgeInsets.symmetric(vertical: 2, horizontal: 31),
+                  padding: EdgeInsets.symmetric(vertical: 2, horizontal: 31),
                   child: Text(
                     "User Name",
                     style: TextStyle(fontSize: 14, color: Colors.white),
@@ -97,8 +96,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 const SizedBox(height: 30),
                 const Padding(
-                  padding:
-                      EdgeInsets.symmetric(vertical: 2, horizontal: 31),
+                  padding: EdgeInsets.symmetric(vertical: 2, horizontal: 31),
                   child: Text(
                     "Mobile Number",
                     style: TextStyle(fontSize: 14, color: Colors.white),
@@ -121,8 +119,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 const SizedBox(height: 30),
                 const Padding(
-                  padding:
-                      EdgeInsets.symmetric(vertical: 2, horizontal: 31),
+                  padding: EdgeInsets.symmetric(vertical: 2, horizontal: 31),
                   child: Text(
                     "Email ID",
                     style: TextStyle(fontSize: 14, color: Colors.white),

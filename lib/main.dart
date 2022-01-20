@@ -1,19 +1,22 @@
-import 'package:bitnxt/screens/dashboard/newdash.dart';
+import 'screens/p2p/p2pordermatchscreen.dart';
+import 'screens/p2p/p2pscreen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:bitnxt/chart/chartscreen.dart';
-import 'package:bitnxt/models/coinmodel.dart';
-import 'package:bitnxt/models/usermodel.dart';
-import 'package:bitnxt/screens/dashboard/bottomnavbar.dart';
-import 'package:bitnxt/screens/dashboard/dash.dart';
-import 'package:bitnxt/screens/loginscreen.dart';
-import 'package:bitnxt/screens/register.dart';
-import 'package:bitnxt/screens/navbar.dart';
-import 'package:bitnxt/screens/walletscreen/depositscreen.dart';
-import 'package:bitnxt/screens/walletscreen/singlewallet.dart';
-import 'package:bitnxt/screens/walletscreen/walletscreen.dart';
+import 'chart/chartscreen.dart';
+import 'models/coinmodel.dart';
+import 'models/usermodel.dart';
+import 'screens/dashboard/bottomnavbar.dart';
+import 'screens/loginscreen.dart';
+import 'screens/register.dart';
+import 'screens/trade/navbar.dart';
+import 'screens/walletscreen/depositscreen.dart';
+import 'screens/walletscreen/singlewallet.dart';
+import 'screens/walletscreen/walletscreen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
   runApp(const MyApp());
 }
 
@@ -42,7 +45,7 @@ class MyApp extends StatelessWidget {
         routes: {
           '/': (ctx) => const LoginScreen(),
           // candleStickChart.routename: (ctx) => candleStickChart(),
-          NewDash.routename: (ctx) => const NewDash(),
+          // Dash.routename: (ctx) => Dash(),
           RegisterScreen.routename: (ctx) => const RegisterScreen(),
           WalletScreen.routename: (ctx) => const WalletScreen(),
           DepositScreen.routename: (ctx) => const DepositScreen(),
@@ -51,7 +54,9 @@ class MyApp extends StatelessWidget {
           ChartScreen.routename: (ctx) => const ChartScreen(
                 data: {},
               ),
-          BottomNavbar.routename: (ctx) => const BottomNavbar()
+          BottomNavbar.routename: (ctx) => const BottomNavbar(),
+          P2pScreen.routename: (ctx) => const P2pScreen(),
+          P2pOrderMatchScreen.routename: (ctx) => const P2pOrderMatchScreen()
         },
       ),
     );

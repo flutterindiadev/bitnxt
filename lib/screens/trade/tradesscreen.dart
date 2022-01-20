@@ -4,9 +4,9 @@ import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:bitnxt/constants/config.dart';
-import 'package:bitnxt/models/ordermodel.dart';
-import 'package:bitnxt/utils/appurl.dart';
+import '../../constants/config.dart';
+import '../../models/ordermodel.dart';
+import '../../utils/appurl.dart';
 
 class TradesScreen extends StatefulWidget {
   final Map<String, dynamic> data;
@@ -110,7 +110,26 @@ class _TradesScreenState extends State<TradesScreen> {
                           children: [
                             Text(
                               //converted unix timestamp
-                              DateFormat.jms().format(DateTime.fromMicrosecondsSinceEpoch(int.parse(closedTrades[index].createdTime.toString()) * 1000)).toString().substring(0, DateFormat.jms().format(DateTime.fromMicrosecondsSinceEpoch(int.parse(closedTrades[index].createdTime.toString()) * 1000)).toString().length - 3),
+                              DateFormat.jms()
+                                  .format(DateTime.fromMicrosecondsSinceEpoch(
+                                      int.parse(closedTrades[index]
+                                              .createdTime
+                                              .toString()) *
+                                          1000))
+                                  .toString()
+                                  .substring(
+                                      0,
+                                      DateFormat.jms()
+                                              .format(DateTime
+                                                  .fromMicrosecondsSinceEpoch(
+                                                      int.parse(closedTrades[
+                                                                  index]
+                                                              .createdTime
+                                                              .toString()) *
+                                                          1000))
+                                              .toString()
+                                              .length -
+                                          3),
                               style: const TextStyle(color: Colors.black87),
                             ),
                             Text(closedTrades[index].price.toString(),

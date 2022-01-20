@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:bitnxt/global_widgets/myappbar.dart';
-import 'package:bitnxt/models/usermodel.dart';
+import '../global_widgets/myappbar.dart';
+import '../models/usermodel.dart';
 
 class MyProfileScreen extends StatelessWidget {
   const MyProfileScreen({Key? key}) : super(key: key);
@@ -61,8 +61,8 @@ class MyProfileScreen extends StatelessWidget {
                 child: Card(
                     color: Colors.blue[900],
                     child: const Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 10),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                       child: Text('Mobile Number : ',
                           style: TextStyle(color: Colors.white)),
                     )),
@@ -74,8 +74,8 @@ class MyProfileScreen extends StatelessWidget {
                 child: Card(
                     color: Colors.blue[900],
                     child: const Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 10),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                       child: Text('KYC : unverified',
                           style: TextStyle(color: Colors.red)),
                     )),
@@ -87,8 +87,8 @@ class MyProfileScreen extends StatelessWidget {
                 child: Card(
                     color: Colors.blue[900],
                     child: const Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 10),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                       child: Text('Invite and Earn',
                           style: TextStyle(color: Colors.white)),
                     )),
@@ -100,8 +100,8 @@ class MyProfileScreen extends StatelessWidget {
                 child: Card(
                     color: Colors.blue[900],
                     child: const Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 10),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                       child:
                           Text('Logout', style: TextStyle(color: Colors.white)),
                     )),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:bitnxt/global_widgets/myappbar.dart';
-import 'package:bitnxt/models/usermodel.dart';
-import 'package:bitnxt/screens/walletscreen/singlewallet.dart';
+import '../../global_widgets/myappbar.dart';
+import '../../models/usermodel.dart';
+import 'singlewallet.dart';
 
 class WalletScreen extends StatefulWidget {
   const WalletScreen({Key? key}) : super(key: key);
@@ -28,7 +28,8 @@ class _WalletScreenState extends State<WalletScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(
-                num.parse(userBalances.user.porfolioValue.toString()).toStringAsFixed(2),
+                num.parse(userBalances.user.porfolioValue.toString())
+                    .toStringAsFixed(2),
                 style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -43,6 +44,63 @@ class _WalletScreenState extends State<WalletScreen> {
               ),
               const Padding(
                 padding: EdgeInsets.all(10.0),
+              ),
+              Card(
+                color: const Color(0xff41516a),
+                elevation: 0,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 5),
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Row(
+                          children: [
+                            SizedBox(
+                              width: 10,
+                            ),
+                            SizedBox(
+                              height: 30,
+                              width: 30,
+                              child: Image.asset('assets/images/rupee.png'),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'INR',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  'Indian Rupee',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                )
+                              ],
+                            ),
+                            const Spacer(),
+                            Column(
+                              children: [
+                                Text(
+                                  userBalances.user.currencyData['inrbalance']
+                                      .toString(),
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ],
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ),
               ),
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.60,
@@ -82,74 +140,77 @@ class _WalletScreenState extends State<WalletScreen> {
                             'price']
                         .toString();
                     String coinValue =
-                        (num.parse(bal) * num.parse(price)).toStringAsFixed(2) + ' USD';
+                        (num.parse(bal) * num.parse(price)).toStringAsFixed(2) +
+                            ' USD';
                     return Card(
                       color: const Color(0xff41516a),
                       elevation: 0,
-                      child: Container(
-                          padding:
-                              const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              InkWell(
-                                onTap: () {
-                                  Navigator.of(context).pushNamed(
-                                      SingleWalletScreen.routename,
-                                      arguments: {
-                                        'id': id,
-                                        'coinname': coinname,
-                                        'symbol': userBalances
-                                            .user.supportedCurrencies[index]
-                                      });
-                                },
-                                child: Row(
-                                  children: [
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    SizedBox(
-                                        height: 30,
-                                        width: 30,
-                                        child: Image.network(image)),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          userBalances
-                                              .user.supportedCurrencies[index],
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.white),
-                                        ),
-                                        Text(coinname,
-                                            style:
-                                                const TextStyle(color: Colors.white))
-                                      ],
-                                    ),
-                                    const Spacer(),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      children: [
-                                        Text(bal,
-                                            style:
-                                                const TextStyle(color: Colors.white)),
-                                        Text(coinValue,
-                                            style:
-                                                const TextStyle(color: Colors.white))
-                                      ],
-                                    ),
-                                  ],
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 5),
+                        child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 5),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.of(context).pushNamed(
+                                        SingleWalletScreen.routename,
+                                        arguments: {
+                                          'id': id,
+                                          'coinname': coinname,
+                                          'symbol': userBalances
+                                              .user.supportedCurrencies[index]
+                                        });
+                                  },
+                                  child: Row(
+                                    children: [
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      SizedBox(
+                                          height: 30,
+                                          width: 30,
+                                          child: Image.network(image)),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            userBalances.user
+                                                .supportedCurrencies[index],
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white),
+                                          ),
+                                          Text(coinname,
+                                              style: const TextStyle(
+                                                  color: Colors.white))
+                                        ],
+                                      ),
+                                      const Spacer(),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        children: [
+                                          Text(bal,
+                                              style: const TextStyle(
+                                                  color: Colors.white)),
+                                          Text(coinValue,
+                                              style: const TextStyle(
+                                                  color: Colors.white))
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              const Divider(),
-                            ],
-                          )),
+                              ],
+                            )),
+                      ),
                     );
                   },
                 ),

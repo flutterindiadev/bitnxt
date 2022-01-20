@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -19,7 +20,26 @@ class Coin {
   num price;
   num change;
   num changePercentage;
+
+  factory Coin.fromJson(Map<String, dynamic> json) {
+    return Coin(
+        name: json['name'],
+        symbol: json['symbol'],
+        imageUrl: json['image'],
+        price: json['current_price'],
+        change: json['price_change_24h'],
+        changePercentage: json['price_change_percentage_24h']);
+  }
 }
+
+// Future<List<Coin>> getCoinList() async {
+//   final response = await http.get(Uri.parse(
+//       'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false'));
+//   List<dynamic> parsedListJson = jsonDecode(response.body);
+//   List<Coin> coinList =
+//       List<Coin>.from(parsedListJson.map((i) => Coin.fromJson(i)));
+//   return coinList;
+// }
 
 List supportedCurrencies = [
   'BTC',
@@ -85,7 +105,8 @@ class CoinData with ChangeNotifier {
     notifyListeners();
   }
 
-  Future getMarketData(String pair) async {
+  Future<List<MarketCoin>> getMarketData(String pair) async {
+    List<MarketCoin> mk = [];
     final response = await http.get(Uri.parse(
         'https://api.coingecko.com/api/v3/coins/markets?vs_currency=$pair&order=market_cap_desc&per_page=100&page=1&sparkline=false'));
     if (response.statusCode == 200) {
@@ -94,10 +115,9 @@ class CoinData with ChangeNotifier {
       if (values.isNotEmpty) {
         if (_marketData.isNotEmpty) {
           _marketData.clear();
-
           for (int i = 0; i < values.length; i++) {
             if (values[i]['symbol'] != pair) {
-              _marketData.add(MarketCoin(
+              mk.add(MarketCoin(
                   name: values[i]['name'],
                   symbol: values[i]['symbol'] + '/' + pair,
                   price: values[i]['current_price'],
@@ -105,10 +125,11 @@ class CoinData with ChangeNotifier {
                   changePercentage: values[i]['price_change_percentage_24h']));
             }
           }
+          _marketData.addAll(mk);
         } else {
           for (int i = 0; i < values.length; i++) {
             if (values[i]['symbol'] != pair) {
-              _marketData.add(MarketCoin(
+              mk.add(MarketCoin(
                   name: values[i]['name'],
                   symbol: values[i]['symbol'] + '/' + pair,
                   price: values[i]['current_price'],
@@ -116,9 +137,11 @@ class CoinData with ChangeNotifier {
                   changePercentage: values[i]['price_change_percentage_24h']));
             }
           }
+          _marketData.addAll(mk);
         }
       }
     }
     notifyListeners();
+    return mk;
   }
 }

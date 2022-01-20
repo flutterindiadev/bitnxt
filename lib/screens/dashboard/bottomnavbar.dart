@@ -1,9 +1,9 @@
-import 'package:bitnxt/screens/dashboard/newdash.dart';
+import 'newdash.dart';
 import 'package:flutter/material.dart';
-import 'package:bitnxt/screens/dashboard/dash.dart';
-import 'package:bitnxt/screens/market/marketscreen.dart';
-import 'package:bitnxt/screens/my.dart';
-import 'package:bitnxt/screens/walletscreen/walletscreen.dart';
+import 'dash.dart';
+import '../market/marketscreen.dart';
+import '../my.dart';
+import '../walletscreen/walletscreen.dart';
 
 class BottomNav extends StatefulWidget {
   const BottomNav({Key? key}) : super(key: key);
@@ -15,18 +15,43 @@ class BottomNav extends StatefulWidget {
 }
 
 class _BottomNavState extends State<BottomNav> {
-  final List<Widget> _widgetOptions = <Widget>[
-    const NewDash(),
-    const MarketScreen(),
-    const WalletScreen(),
-    const MyProfileScreen()
-  ];
+  // final List<Widget> _widgetOptions = <Widget>[
+  //   Dash(gotoMarketScreen),
+  //   const MarketScreen(),
+  //   const WalletScreen(),
+  //   const MyProfileScreen()
+  // ];
+
   int _selectedIndex = 0;
 
+  void gotoMarketScreen() {
+    if (mounted) {
+      setState(() {
+        _selectedIndex = 1;
+      });
+    }
+  }
+
   void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+    if (mounted) {
+      setState(() {
+        _selectedIndex = index;
+      });
+    }
+  }
+
+  Widget body() {
+    switch (_selectedIndex) {
+      case 0:
+        return Dash(gotoMarketScreen);
+      case 1:
+        return const MarketScreen();
+      case 2:
+        return const WalletScreen();
+      case 3:
+        return const MyProfileScreen();
+    }
+    return Container();
   }
 
   @override
@@ -66,7 +91,7 @@ class _BottomNavState extends State<BottomNav> {
           onTap: _onItemTapped,
         ),
       ),
-      body: _widgetOptions.elementAt(_selectedIndex),
+      body: body(),
     );
   }
 }

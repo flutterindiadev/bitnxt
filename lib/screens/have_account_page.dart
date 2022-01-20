@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:bitnxt/global_widgets/mybutton.dart';
-import 'package:bitnxt/screens/loginscreen.dart';
-import 'package:bitnxt/screens/register.dart';
+import '../global_widgets/mybutton.dart';
+import 'loginscreen.dart';
+import 'register.dart';
 
 class HaveAccount extends StatefulWidget {
   const HaveAccount({Key? key}) : super(key: key);

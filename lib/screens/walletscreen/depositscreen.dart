@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
-import 'package:bitnxt/constants/config.dart';
-import 'package:bitnxt/global_widgets/myappbar.dart';
-import 'package:bitnxt/models/usermodel.dart';
-import 'package:bitnxt/utils/appurl.dart';
+import '../../constants/config.dart';
+import '../../global_widgets/myappbar.dart';
+import '../../models/usermodel.dart';
+import '../../utils/appurl.dart';
 
 class DepositScreen extends StatefulWidget {
   const DepositScreen({Key? key}) : super(key: key);
@@ -53,7 +53,8 @@ class _DepositScreenState extends State<DepositScreen> {
                 // Text(deposits.user.currencyData['']),
                 const SizedBox(height: 20),
                 ElevatedButton(
-                    onPressed: () {}, child: const Text('Create deposit address')),
+                    onPressed: () {},
+                    child: const Text('Create deposit address')),
                 const SizedBox(
                   height: 20,
                 ),
@@ -98,13 +99,34 @@ class _DepositScreenState extends State<DepositScreen> {
                                         MainAxisAlignment.spaceEvenly,
                                     children: [
                                       Text(
-                                        deposits.depositTransactions[index].transHash.substring(0, 5) + '...' + deposits.depositTransactions[index].transHash.substring(deposits.depositTransactions[index].transHash.length - 5, deposits.depositTransactions[index].transHash.length),
+                                        deposits.depositTransactions[index]
+                                                .transHash
+                                                .substring(0, 5) +
+                                            '...' +
+                                            deposits.depositTransactions[index]
+                                                .transHash
+                                                .substring(
+                                                    deposits
+                                                            .depositTransactions[
+                                                                index]
+                                                            .transHash
+                                                            .length -
+                                                        5,
+                                                    deposits
+                                                        .depositTransactions[
+                                                            index]
+                                                        .transHash
+                                                        .length),
                                         style: const TextStyle(
                                             fontSize: 12,
                                             overflow: TextOverflow.ellipsis),
                                       ),
                                       Text(
-                                        (int.parse(deposits.depositTransactions[index].transValue) / 1000000000000000000).toStringAsFixed(5),
+                                        (int.parse(deposits
+                                                    .depositTransactions[index]
+                                                    .transValue) /
+                                                1000000000000000000)
+                                            .toStringAsFixed(5),
                                         style: const TextStyle(
                                             fontSize: 12,
                                             fontWeight: FontWeight.bold),

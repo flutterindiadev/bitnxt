@@ -21,14 +21,7 @@ class _ChartScreenState extends State<ChartScreen>
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-        body:
-            // Container(
-            // height: MediaQuery.of(context).size.height,
-            // child: Column(
-            //   children: [
-            //     Flexible(
-            //         child:
-            WebView(
+        body: WebView(
       backgroundColor: const Color(0xff17173D),
       javascriptMode: JavascriptMode.unrestricted,
       initialUrl: '',

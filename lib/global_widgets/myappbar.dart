@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:bitnxt/screens/dashboard/bottomnavbar.dart';
 
 PreferredSizeWidget myAppBar(
   String title,

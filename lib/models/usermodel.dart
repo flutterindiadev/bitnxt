@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
-import 'package:bitnxt/constants/config.dart';
-import 'package:bitnxt/models/coinmodel.dart';
-import 'package:bitnxt/screens/dashboard/bottomnavbar.dart';
-import 'package:bitnxt/utils/appurl.dart';
+import '../constants/config.dart';
+import 'coinmodel.dart';
+import '../screens/dashboard/bottomnavbar.dart';
+import '../utils/appurl.dart';
+import 'package:dio/dio.dart';
 
 class User {
   String id = '';
@@ -23,7 +24,8 @@ class User {
     'ADA',
     'XRP',
     'XLM',
-    'MATIC'
+    'MATIC',
+    'USDT'
   ];
   Map currencyData = {};
   String externalId = '';
@@ -75,10 +77,59 @@ class UserProvider with ChangeNotifier {
     final response = await http.post(Uri.parse(AppUrl.loginUrl),
         body: {'email': email, 'password': password});
     final parsedJson = json.decode(response.body);
-    print(parsedJson);
     if (parsedJson['status'] == true) {
       user.id = parsedJson['user']['id'].toString();
       user.email = parsedJson['user']['email'].toString();
+
+      //get account
+      http.get(
+          Uri.parse(AppUrl.getAccount + parsedJson['user']['id'].toString()),
+          headers: {"X-Api-Key": API_KEY}).then((response) async {
+        final responseData = json.decode(response.body);
+        user.customerId = responseData['id'];
+
+        //get Exchange Data
+        final exResponse = await http.get(
+            Uri.parse(
+                AppUrl.getExchangeData + responseData['id'] + '?pageSize=10'),
+            headers: {
+              "X-Api-Key": API_KEY,
+            });
+        print(responseData['id'] + 'ExchangeData');
+        print(exResponse.body);
+        if (exResponse.statusCode == 200) {
+          final responseData = json.decode(exResponse.body);
+          for (var i = 0; i < user.supportedCurrencies.length; i++) {
+            String id = '${user.supportedCurrencies[i].toLowerCase() + 'id'}';
+            String balance =
+                '${user.supportedCurrencies[i].toLowerCase() + 'balance'}';
+
+            for (var j = 0; j < responseData.length; j++) {
+              print(responseData[j]['currency']);
+              if (responseData[j]['currency'] == 'VC_INR') {
+                user.currencyData['inrid'] = responseData[j]['id'];
+                user.currencyData['inrbalance'] =
+                    responseData[j]['balance']['availableBalance'];
+                break;
+              } else if (responseData[j]['currency'] ==
+                  user.supportedCurrencies[i]) {
+                user.currencyData[id] = responseData[j]['id'];
+                user.currencyData[balance] =
+                    responseData[j]['balance']['availableBalance'];
+                break;
+              } else {
+                user.currencyData[id] = '';
+                user.currencyData[balance] = '0';
+              }
+              break;
+            }
+          }
+          print(user.currencyData.toString());
+        }
+      });
+
+      notifyListeners();
+
       Navigator.of(context).pushNamed(BottomNav.routename);
 
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -89,92 +140,63 @@ class UserProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future getAccount() async {
-    http.get(Uri.parse(AppUrl.getAccount + user.id),
-        headers: {"X-Api-Key": API_KEY}).then((response) async {
-      final responseData = json.decode(response.body);
-      user.customerId = responseData['id'];
-      print(responseData);
-    });
-    notifyListeners();
-  }
+  // Future getAccount() async {
+  //   http.get(Uri.parse(AppUrl.getAccount + user.id),
+  //       headers: {"X-Api-Key": API_KEY}).then((response) async {
+  //     final responseData = json.decode(response.body);
+  //     user.customerId = responseData['id'];
+  //   });
+  // }
 
-  Future getExchangeData() async {
-    print('exchange');
-    final exResponse = await http.get(
-        Uri.parse(AppUrl.getExchangeData + user.customerId + '?pageSize=10'),
-        headers: {
-          "X-Api-Key": API_KEY,
-        });
-    print(exResponse);
-    if (exResponse.statusCode == 200) {
-      final responseData = json.decode(exResponse.body);
-      for (var i = 0; i < user.supportedCurrencies.length; i++) {
-        String id = '${user.supportedCurrencies[i].toLowerCase() + 'id'}';
-        String balance =
-            '${user.supportedCurrencies[i].toLowerCase() + 'balance'}';
-        for (var j = 0; j < responseData.length; j++) {
-          if (responseData[j]['currency'] == user.supportedCurrencies[i]) {
-            user.currencyData[id] = responseData[j]['id'];
-            user.currencyData[balance] =
-                responseData[j]['balance']['availableBalance'];
-            break;
-          } else {
-            user.currencyData[id] = '';
-            user.currencyData[balance] = '0';
-          }
-        }
-      }
-    }
-    notifyListeners();
-  }
-
-  Future getPortfolioValue() async {
-    print('ex');
-    num portVal = 0;
-    for (var i = 0; i < user.supportedCurrencies.length; i++) {
-      print(user.currencyData[
-          user.supportedCurrencies[i].toString().toLowerCase() + 'price']);
-      num bal = num.parse(user.currencyData[
-              user.supportedCurrencies[i].toString().toLowerCase() + 'balance']
-          .toString());
-      num price = num.parse(user.currencyData[
-              user.supportedCurrencies[i].toString().toLowerCase() + 'price']
-          .toString());
-      portVal += (bal * price);
-    }
-    user.porfolioValue = portVal;
-    notifyListeners();
-  }
-
-  // Future<void> getExchangeData() async {
-  //   Map clist = {};
-  //   final response = await http.get(
-  //       Uri.parse(AppUrl.getExchangeData + user.customerId + '?pageSize=10'),
+  // Future getExchangeData() async {
+  //   final exResponse = await http.get(
+  //       Uri.parse(AppUrl.getExchangeData + customerId + '?pageSize=10'),
   //       headers: {
   //         "X-Api-Key": API_KEY,
   //       });
-  //   if (response.statusCode == 200) {
-  //     final responseData = json.decode(response.body);
+  //   print(customerId + 'ExchangeData');
+  //   print(exResponse.body);
+  //   if (exResponse.statusCode == 200) {
+  //     final responseData = json.decode(exResponse.body);
   //     for (var i = 0; i < user.supportedCurrencies.length; i++) {
   //       String id = '${user.supportedCurrencies[i].toLowerCase() + 'id'}';
   //       String balance =
   //           '${user.supportedCurrencies[i].toLowerCase() + 'balance'}';
   //       for (var j = 0; j < responseData.length; j++) {
   //         if (responseData[j]['currency'] == user.supportedCurrencies[i]) {
-  //           clist[id] = responseData[j]['id'];
-  //           clist[balance] = responseData[j]['balance']['availableBalance'];
+  //           user.currencyData[id] = responseData[j]['id'];
+  //           user.currencyData[balance] =
+  //               responseData[j]['balance']['availableBalance'];
   //           break;
   //         } else {
-  //           clist[id] = '';
-  //           clist[balance] = '0';
+  //           user.currencyData[id] = '';
+  //           user.currencyData[balance] = '0';
   //         }
   //       }
   //     }
-  //     user.currencyData = clist;
-  //     notifyListeners();
   //   }
+  //   notifyListeners();
   // }
+
+  Future getPortfolioValue() async {
+    Future.delayed(Duration(seconds: 5), () {
+      num portVal = 0;
+      for (var i = 0; i < user.supportedCurrencies.length; i++) {
+        print(user.currencyData[
+            user.supportedCurrencies[i].toString().toLowerCase() + 'price']);
+        num bal = num.parse(user.currencyData[
+                user.supportedCurrencies[i].toString().toLowerCase() +
+                    'balance']
+            .toString());
+        num price = num.parse(user.currencyData[
+                user.supportedCurrencies[i].toString().toLowerCase() + 'price']
+            .toString());
+        portVal += (bal * price);
+      }
+      user.porfolioValue = portVal;
+      notifyListeners();
+    });
+  }
 
   Future createDepositAddress(id) async {
     http.post(Uri.parse(AppUrl.createDepositAddress + id + '/address'),
@@ -185,17 +207,25 @@ class UserProvider with ChangeNotifier {
   }
 
   Future getDepositAddress(id) async {
-    http.get(Uri.parse(AppUrl.createDepositAddress + id + '/address'),
-        headers: {"X-Api-Key": API_KEY}).then((response) {
-      final responseData = json.decode(response.body);
-      print(responseData);
-      String address =
-          responseData[0]['currency'].toString().toLowerCase() + 'address';
-      user.currencyData[address] =
-          responseData[(responseData.length - 1)]['address'];
-      getDepositHistory(user.currencyData[address]);
-      notifyListeners();
-    });
+    print(id.toString());
+    if (id != '') {
+      final response = await http.get(
+          Uri.parse(AppUrl.createDepositAddress + id + '/address'),
+          headers: {"X-Api-Key": API_KEY}).then((response) {
+        final responseData = json.decode(response.body);
+        print(responseData);
+        if (response.statusCode == 200) {
+          String address =
+              responseData[0]['currency'].toString().toLowerCase() + 'address';
+          user.currencyData[address] =
+              responseData[(responseData.length - 1)]['address'];
+          getDepositHistory(user.currencyData[address]);
+          notifyListeners();
+        }
+      });
+    } else {
+      return;
+    }
   }
 
   Future getDepositHistory(String address) async {
@@ -213,27 +243,8 @@ class UserProvider with ChangeNotifier {
     });
   }
 
-  Future getPorfolioValue() async {
-    num portVal = 0;
-    for (var i = 0; i < user.supportedCurrencies.length; i++) {
-      if (user.currencyData.isNotEmpty) {
-        num bal = num.parse(user.currencyData[
-                user.supportedCurrencies[i].toString().toLowerCase() +
-                    'balance']
-            .toString());
-        num price = num.parse(user.currencyData[
-                user.supportedCurrencies[i].toString().toLowerCase() + 'price']
-            .toString());
-        portVal += (bal * price);
-      } else {
-        print('Not run');
-      }
-    }
-    user.porfolioValue = portVal;
-    notifyListeners();
-  }
-
   Future updateCoinData(BuildContext context) async {
+    // Future.delayed(const Duration(milliseconds: 600), () {
     final coins = Provider.of<CoinData>(context, listen: false);
     for (int i = 0; i < user.supportedCurrencies.length; i++) {
       String name = '${user.supportedCurrencies[i].toLowerCase() + 'name'}';
@@ -255,6 +266,7 @@ class UserProvider with ChangeNotifier {
         }
       }
     }
+    // });
     notifyListeners();
   }
 }

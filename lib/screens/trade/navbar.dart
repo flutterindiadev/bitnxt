@@ -3,14 +3,14 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
-import 'package:bitnxt/chart/chartscreen.dart';
-import 'package:bitnxt/constants/config.dart';
-import 'package:bitnxt/global_widgets/myappbar.dart';
-import 'package:bitnxt/models/usermodel.dart';
-import 'package:bitnxt/screens/openordersscreen.dart';
-import 'package:bitnxt/screens/orderbook.dart';
-import 'package:bitnxt/screens/tradesscreen.dart';
-import 'package:bitnxt/utils/appurl.dart';
+import '../../chart/chartscreen.dart';
+import '../../constants/config.dart';
+import '../../global_widgets/myappbar.dart';
+import '../../models/usermodel.dart';
+import 'openordersscreen.dart';
+import 'orderbook.dart';
+import 'tradesscreen.dart';
+import '../../utils/appurl.dart';
 
 class BottomNavbar extends StatefulWidget {
   static const routename = '/test';
@@ -26,14 +26,18 @@ class _BottomNavbarState extends State<BottomNavbar> {
   TextEditingController amountController = TextEditingController();
 
   Future<Map<String, dynamic>> getData(context) async {
+    final routeArg =
+        ModalRoute.of(context)!.settings.arguments.toString() as Map;
     return Future.delayed(const Duration(seconds: 0),
-        () => {'pair': ModalRoute.of(context)!.settings.arguments.toString()});
+        () => {'pair': routeArg['pair'], 'pageIndex': routeArg['PageIndex']});
   }
 
   Future<void> placeBuyOrder(String price, String amount) async {
+    final routeArg =
+        ModalRoute.of(context)!.settings.arguments.toString() as Map;
     final c =
         Provider.of<UserProvider>(context, listen: false).user.currencyData;
-    String tradingPair = ModalRoute.of(context)!.settings.arguments.toString();
+    String tradingPair = routeArg['pair'];
     String currencyId1 =
         c[tradingPair.substring(0, (tradingPair.length - 3)) + 'id'];
     String currencyId2 =
@@ -61,9 +65,11 @@ class _BottomNavbarState extends State<BottomNavbar> {
   }
 
   Future<void> placeSellOrder(String price, String amount) async {
+    final routeArg =
+        ModalRoute.of(context)!.settings.arguments.toString() as Map;
     final c =
         Provider.of<UserProvider>(context, listen: false).user.currencyData;
-    String tradingPair = ModalRoute.of(context)!.settings.arguments.toString();
+    String tradingPair = routeArg['pair'];
     String currencyId1 =
         c[tradingPair.substring(0, (tradingPair.length - 3)) + 'id'];
     String currencyId2 =
@@ -90,12 +96,27 @@ class _BottomNavbarState extends State<BottomNavbar> {
 
   @override
   void initState() {
-    super.initState();
-    getData(context).then((values) {
-      setState(() {
-        data = values;
-      });
+    Future.delayed(const Duration(seconds: 0), () {
+      final routeArg = ModalRoute.of(context)!.settings.arguments as Map;
+      print(routeArg.toString());
+      final newData = {
+        'pair': routeArg['pair'],
+        'pageIndex': routeArg['PageIndex']
+      };
+      if (mounted) {
+        setState(() {
+          data = newData;
+        });
+      }
     });
+
+    super.initState();
+
+    // getData(context).then((values) {
+    //   setState(() {
+    //     data = values;
+    //   });
+    // });
   }
 
   int _selectedIndex = 0;

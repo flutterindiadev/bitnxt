@@ -1,10 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:bitnxt/chart/chartscreen.dart';
-import 'package:bitnxt/global_widgets/bottomnavbar.dart';
-import 'package:bitnxt/global_widgets/myappbar.dart';
-import 'package:bitnxt/models/coinmodel.dart';
-import 'package:bitnxt/screens/navbar.dart';
+import '../../global_widgets/myappbar.dart';
+import '../../models/coinmodel.dart';
+import '../trade/navbar.dart';
 
 class MarketScreen extends StatefulWidget {
   const MarketScreen({Key? key}) : super(key: key);
@@ -18,18 +18,29 @@ class _MarketScreenState extends State<MarketScreen> {
   bool _ethSelected = false;
   bool _usdSelected = false;
   bool _inrSelected = false;
+  String pair = 'btc';
   @override
   void initState() {
-    Future.delayed(Duration.zero).then((value) {
-      Provider.of<CoinData>(context, listen: false).getMarketData('btc');
+    Provider.of<CoinData>(context, listen: false)
+        .getMarketData(pair)
+        .then((value) {
+      Timer.periodic(Duration(seconds: 5), (timer) {
+        if (mounted) {
+          Provider.of<CoinData>(context, listen: false).getMarketData(pair);
+        }
+      });
     });
+
+    // Stream<Future<List<MarketCoin>>> getMarketPrices() async* {
+    //   yield Provider.of<CoinData>(context, listen: false).getMarketData(pair);
+    // }
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     final markets = Provider.of<CoinData>(context);
-
     return Scaffold(
       appBar: myAppBar('Markets', context),
       body: Container(
@@ -44,8 +55,9 @@ class _MarketScreenState extends State<MarketScreen> {
                   children: [
                     InkWell(
                       onTap: () {
-                        markets.getMarketData('btc');
+                        // markets.getMarketData('btc');
                         setState(() {
+                          pair = 'btc';
                           _btcSelected = true;
                           _ethSelected = false;
                           _usdSelected = false;
@@ -66,8 +78,9 @@ class _MarketScreenState extends State<MarketScreen> {
                     ),
                     InkWell(
                       onTap: () {
-                        markets.getMarketData('eth');
+                        // markets.getMarketData('eth');
                         setState(() {
+                          pair = 'eth';
                           _btcSelected = false;
                           _ethSelected = true;
                           _usdSelected = false;
@@ -86,8 +99,9 @@ class _MarketScreenState extends State<MarketScreen> {
                     ),
                     InkWell(
                       onTap: () {
-                        markets.getMarketData('usd');
+                        // markets.getMarketData('usd');
                         setState(() {
+                          pair = 'usd';
                           _btcSelected = false;
                           _ethSelected = false;
                           _usdSelected = true;
@@ -106,8 +120,9 @@ class _MarketScreenState extends State<MarketScreen> {
                     ),
                     InkWell(
                       onTap: () {
-                        markets.getMarketData('inr');
+                        // markets.getMarketData('inr');
                         setState(() {
+                          pair = 'inr';
                           _btcSelected = false;
                           _ethSelected = false;
                           _usdSelected = false;
@@ -140,13 +155,17 @@ class _MarketScreenState extends State<MarketScreen> {
                             if (markets.marketData[index].symbol
                                 .toString()
                                 .endsWith('inr')) {
-                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                                  content: Text(
-                                      'Chart not available for the selected pair !')));
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      content: Text(
+                                          'Chart not available for the selected pair !')));
                             } else {
                               Navigator.of(context).pushNamed(
                                   BottomNavbar.routename,
-                                  arguments: sym[0] + sym[1]);
+                                  arguments: {
+                                    'pair': sym[0] + sym[1],
+                                    'PageIndex': 0
+                                  });
                             }
                           },
                           child: SizedBox(
@@ -164,13 +183,32 @@ class _MarketScreenState extends State<MarketScreen> {
                                     Text(
                                       markets.marketData[index].symbol
                                           .toUpperCase(),
-                                      style: const TextStyle(color: Colors.white),
+                                      style:
+                                          const TextStyle(color: Colors.white),
                                     ),
                                     const Spacer(),
-                                    Text(
-                                        markets.marketData[index].price
-                                            .toStringAsFixed(4),
-                                        style: const TextStyle(color: Colors.white)),
+                                    if (num.parse(markets
+                                            .marketData[index].price
+                                            .toStringAsFixed(4)) >=
+                                        0.0010)
+                                      Text(
+                                          markets.marketData[index].price
+                                              .toStringAsFixed(4),
+                                          style: const TextStyle(
+                                              color: Colors.white)),
+                                    if (num.parse(markets
+                                                .marketData[index].price
+                                                .toStringAsFixed(8)) >=
+                                            0.00000010 &&
+                                        num.parse(markets
+                                                .marketData[index].price
+                                                .toStringAsFixed(4)) <
+                                            0.0010)
+                                      Text(
+                                          markets.marketData[index].price
+                                              .toStringAsFixed(8),
+                                          style: const TextStyle(
+                                              color: Colors.white)),
                                     const SizedBox(
                                       width: 10,
                                     ),
@@ -183,7 +221,8 @@ class _MarketScreenState extends State<MarketScreen> {
                                                 .changePercentage
                                                 .toStringAsFixed(4) +
                                             '%',
-                                        style: const TextStyle(color: Colors.green),
+                                        style: const TextStyle(
+                                            color: Colors.green),
                                       ),
                                     if (markets.marketData[index]
                                             .changePercentage <
@@ -193,7 +232,8 @@ class _MarketScreenState extends State<MarketScreen> {
                                                 .changePercentage
                                                 .toStringAsFixed(4) +
                                             '%',
-                                        style: const TextStyle(color: Colors.red),
+                                        style:
+                                            const TextStyle(color: Colors.red),
                                       )
                                   ],
                                 ),
