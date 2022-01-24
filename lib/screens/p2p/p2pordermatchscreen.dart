@@ -1,3 +1,5 @@
+import 'package:bitnxt/global_widgets/globalButton.dart';
+
 import '../../global_widgets/myappbar.dart';
 import 'package:flutter/material.dart';
 
@@ -30,17 +32,7 @@ class P2pOrderMatchScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  height: 50,
-                  decoration: ShapeDecoration(
-                    shape: StadiumBorder(),
-                    color: Color(0xffDDD601),
-                  ),
-                  child: Center(child: Text('Confirm')),
-                )
-              ],
+              children: [GradientButtonFb1(text: 'Confirm', onPressed: () {})],
             ),
           )
         ],

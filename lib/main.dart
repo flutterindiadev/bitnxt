@@ -1,3 +1,5 @@
+import 'package:bitnxt/screens/p2p/p2pbottomnav.dart';
+
 import 'screens/p2p/p2pordermatchscreen.dart';
 import 'screens/p2p/p2pscreen.dart';
 import 'package:flutter/material.dart';
@@ -56,7 +58,8 @@ class MyApp extends StatelessWidget {
               ),
           BottomNavbar.routename: (ctx) => const BottomNavbar(),
           P2pScreen.routename: (ctx) => const P2pScreen(),
-          P2pOrderMatchScreen.routename: (ctx) => const P2pOrderMatchScreen()
+          P2pOrderMatchScreen.routename: (ctx) => const P2pOrderMatchScreen(),
+          P2pBottomNavbar.routename: (ctx) => const P2pBottomNavbar()
         },
       ),
     );

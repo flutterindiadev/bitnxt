@@ -1,45 +1,36 @@
 import 'dart:convert';
-import 'package:intl/intl.dart';
 
+import 'package:bitnxt/constants/config.dart';
+import 'package:bitnxt/global_widgets/myappbar.dart';
+import 'package:bitnxt/models/ordermodel.dart';
+import 'package:bitnxt/utils/appurl.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 
-import '../../constants/config.dart';
-import '../../models/ordermodel.dart';
-import '../../utils/appurl.dart';
-
-class TradesScreen extends StatefulWidget {
-  final Map<String, dynamic> data;
-  const TradesScreen({Key? key, required this.data}) : super(key: key);
+class ClosedOrdersScreen extends StatefulWidget {
+  const ClosedOrdersScreen({Key? key}) : super(key: key);
 
   @override
-  State<TradesScreen> createState() => _TradesScreenState();
+  State<ClosedOrdersScreen> createState() => _ClosedOrdersScreenState();
 }
 
-class _TradesScreenState extends State<TradesScreen> {
+class _ClosedOrdersScreenState extends State<ClosedOrdersScreen> {
   List<order> closedTrades = [];
 
   Future<void> getClosedTrades() async {
-    Map routeData = ModalRoute.of(context)!.settings.arguments as Map;
-    String tradingPair = routeData['pair'];
     Map data = {
       "pageSize": "10",
-      "pair": tradingPair.substring(0, (tradingPair.length - 3)).toUpperCase() +
-          '/' +
-          tradingPair.substring((tradingPair.length - 3)).toUpperCase(),
+      "pair": "VC_USDT/VC_INR",
     };
-    print(tradingPair +
-        tradingPair.substring(0, (tradingPair.length - 3)).toUpperCase());
     final response = await http.post(Uri.parse(AppUrl.getTradeHistory),
         headers: {
           "Content-Type": "application/json",
           "X-Api-Key": API_KEY,
         },
         body: json.encode(data));
-    print(response.statusCode);
     if (response.statusCode == 201) {
       final parsedJson = json.decode(response.body);
-
       for (var i = 0; i < parsedJson.length; i++) {
         print(parsedJson[i]['id'].toString());
         closedTrades.add(order(
@@ -61,16 +52,14 @@ class _TradesScreenState extends State<TradesScreen> {
 
   @override
   void initState() {
-    Future.delayed(Duration.zero).then((value) {
-      getClosedTrades();
-    });
+    getClosedTrades();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    print(closedTrades.toString());
     return Scaffold(
+      appBar: myAppBar('Trades', context),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(

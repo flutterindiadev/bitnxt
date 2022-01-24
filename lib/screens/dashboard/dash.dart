@@ -1,3 +1,6 @@
+import 'package:bitnxt/global_widgets/globalButton.dart';
+import 'package:bitnxt/screens/p2p/p2pbottomnav.dart';
+
 import '../p2p/p2pscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -225,26 +228,13 @@ class _DashState extends State<Dash> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          InkWell(
-                            onTap: () {
-                              Navigator.of(context)
-                                  .pushNamed(P2pScreen.routename);
-                            },
-                            child: Container(
-                              decoration: ShapeDecoration(
-                                  shape: StadiumBorder(), color: Colors.grey),
-                              height: 50,
-                              width: MediaQuery.of(context).size.width / 2 - 30,
-                              child: Center(child: Text('P2P')),
-                            ),
-                          ),
-                          Container(
-                            decoration: ShapeDecoration(
-                                shape: StadiumBorder(), color: Colors.grey),
-                            height: 50,
-                            width: MediaQuery.of(context).size.width / 2 - 30,
-                            child: Center(child: Text('Deposit')),
-                          )
+                          GradientButtonFb2(
+                              text: 'Peer to Peer',
+                              onPressed: () {
+                                Navigator.of(context)
+                                    .pushNamed(P2pBottomNavbar.routename);
+                              }),
+                          GradientButtonFb2(text: 'Deposit', onPressed: () {}),
                         ],
                       ),
                     ),

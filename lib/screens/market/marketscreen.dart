@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:bitnxt/global_widgets/tabselect.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../global_widgets/myappbar.dart';

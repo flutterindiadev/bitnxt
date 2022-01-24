@@ -60,13 +60,16 @@ class _SingleWalletScreenState extends State<SingleWalletScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         ElevatedButton(
-                            onPressed: () {
-                              Navigator.of(context).pushNamed(
-                                  DepositScreen.routename,
-                                  arguments: routeArgs);
-                            },
-                            child: Text(
-                                'Deposit ${routeArgs['coinname'].toString()}')),
+                          onPressed: () {
+                            Navigator.of(context).pushNamed(
+                                DepositScreen.routename,
+                                arguments: routeArgs);
+                          },
+                          child: Text(
+                            'Deposit ${routeArgs['symbol'].toString()}',
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
                         ElevatedButton(
                             onPressed: () {
                               ScaffoldMessenger.of(context).showSnackBar(
@@ -75,7 +78,7 @@ class _SingleWalletScreenState extends State<SingleWalletScreen> {
                                           'Withdrawls have been disabled temporarily')));
                             },
                             child: Text(
-                                'Withdraw ${routeArgs['coinname'].toString()}'))
+                                'Withdraw ${routeArgs['symbol'].toString()}'))
                       ],
                     ),
                   ),

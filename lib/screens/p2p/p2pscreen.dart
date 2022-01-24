@@ -1,8 +1,12 @@
+import 'dart:convert';
+
+import 'package:bitnxt/models/ordermodel.dart';
+import 'package:bitnxt/models/usermodel.dart';
+import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
 import '../../constants/config.dart';
 import '../../global_widgets/myappbar.dart';
-import 'p2pordermatchscreen.dart';
 import '../../utils/appurl.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 class P2pScreen extends StatefulWidget {
@@ -19,28 +23,86 @@ class _P2pScreenState extends State<P2pScreen> {
   TextEditingController sellAmountController = TextEditingController();
   TextEditingController buyAmountController = TextEditingController();
   TextEditingController buyPriceController = TextEditingController();
+  List buyOrders = [];
+  List sellOrders = [];
 
-  Future placeSellOrder() async {
-    Response response;
-    Dio dio = Dio();
-    dio.options.headers['content-Type'] = 'application/json';
-    dio.options.headers['X-Api-Key'] = API_KEY;
-    response = await dio.post(AppUrl.tradeUrl, data: {
-      "type": "SELL",
-      "price": sellPriceController.text,
-      "amount": sellAmountController.text,
-      "pair": "VC_USD/VC_INR",
-      "currency1AccountId": 0,
-      "currency2AccountId": 0
+  Future getOpenBuyOrders() async {
+    Map data = {"pageSize": 50, "pair": "VC_USDT/VC_INR"};
+    final response = await http
+        .post(Uri.parse(AppUrl.getBuyOrder),
+            headers: {
+              "Content-Type": "application/json",
+              "X-Api-Key": API_KEY,
+            },
+            body: json.encode(data))
+        .then((response) {
+      List parsedJson = json.decode(response.body);
+      for (var i = 0; i < parsedJson.length; i++) {
+        if (parsedJson[i]['type'] == 'BUY') {
+          buyOrders.add(order(
+              id: parsedJson[i]['id'],
+              createdTime: parsedJson[i]['created'],
+              amount: parsedJson[i]['amount'],
+              price: parsedJson[i]['price'],
+              fill: parsedJson[i]['fill'],
+              pair: parsedJson[i]['pair'],
+              type: parsedJson[i]['type']));
+        }
+      }
+      if (mounted) {
+        setState(() {
+          buyOrders;
+        });
+      }
+    });
+  }
+
+  Future getOpenSellOrders() async {
+    Map data = {"pageSize": 50, "pair": "VC_USDT/VC_INR"};
+    final response = await http
+        .post(Uri.parse(AppUrl.getSellOrder),
+            headers: {
+              "Content-Type": "application/json",
+              "X-Api-Key": API_KEY,
+            },
+            body: json.encode(data))
+        .then((response) {
+      List parsedJson = json.decode(response.body);
+      print(parsedJson);
+      for (var i = 0; i < parsedJson.length; i++) {
+        if (parsedJson[i]['type'] == 'SELL') {
+          sellOrders.add(order(
+              id: parsedJson[i]['id'],
+              createdTime: parsedJson[i]['created'],
+              amount: parsedJson[i]['amount'],
+              price: parsedJson[i]['price'],
+              fill: parsedJson[i]['fill'],
+              pair: parsedJson[i]['pair'],
+              type: parsedJson[i]['type']));
+        }
+      }
+      if (mounted) {
+        setState(() {
+          sellOrders;
+        });
+      }
     });
   }
 
   @override
+  void initState() {
+    getOpenBuyOrders();
+    getOpenSellOrders();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final userdata = Provider.of<UserProvider>(context);
     return Scaffold(
       appBar: myAppBar('Peer to Peer (P2P)', context),
       body: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.8,
+        height: MediaQuery.of(context).size.height * 0.85,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,7 +110,7 @@ class _P2pScreenState extends State<P2pScreen> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: SizedBox(
-                height: MediaQuery.of(context).size.height * 0.8,
+                height: MediaQuery.of(context).size.height * 0.85,
                 width: MediaQuery.of(context).size.width / 2.2,
                 child: Column(
                   children: [
@@ -63,9 +125,9 @@ class _P2pScreenState extends State<P2pScreen> {
                       ],
                     ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.78,
+                      height: MediaQuery.of(context).size.height * 0.76,
                       child: ListView.builder(
-                        itemCount: 2,
+                        itemCount: buyOrders.length,
                         itemBuilder: (BuildContext context, int index) {
                           return Container(
                             color: Colors.green[100],
@@ -78,10 +140,10 @@ class _P2pScreenState extends State<P2pScreen> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text('0.00',
+                                  Text(buyOrders[index].amount,
                                       style:
                                           const TextStyle(color: Colors.black)),
-                                  Text('0.00',
+                                  Text(buyOrders[index].price,
                                       style: TextStyle(
                                           color: Colors.green[900],
                                           fontWeight: FontWeight.bold))
@@ -113,9 +175,9 @@ class _P2pScreenState extends State<P2pScreen> {
                       ],
                     ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.78,
+                      height: MediaQuery.of(context).size.height * 0.76,
                       child: ListView.builder(
-                        itemCount: 2,
+                        itemCount: sellOrders.length,
                         itemBuilder: (BuildContext context, int index) {
                           return Container(
                             color: Colors.red[100],
@@ -127,10 +189,10 @@ class _P2pScreenState extends State<P2pScreen> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text('0.00',
+                                  Text(sellOrders[index].price,
                                       style:
                                           const TextStyle(color: Colors.black)),
-                                  Text('0.00',
+                                  Text(sellOrders[index].amount,
                                       style: TextStyle(
                                           color: Colors.red[900],
                                           fontWeight: FontWeight.bold))
@@ -147,244 +209,6 @@ class _P2pScreenState extends State<P2pScreen> {
             ),
           ],
         ),
-      ),
-      bottomNavigationBar: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 15, horizontal: 0),
-            child: InkWell(
-              onTap: () {
-                Navigator.of(context).pushNamed(P2pOrderMatchScreen.routename);
-              },
-              child: Container(
-                height: 50,
-                width: MediaQuery.of(context).size.width / 2 - 30,
-                decoration: ShapeDecoration(
-                  shape: StadiumBorder(),
-                  color: Color(0xffDDD601),
-                ),
-                child: Center(child: Text('My orders')),
-              ),
-            ),
-          ),
-          InkWell(
-            onTap: () {
-              showModalBottomSheet(
-                  isScrollControlled: true,
-                  context: context,
-                  builder: (BuildContext context) {
-                    return Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: DefaultTabController(
-                          length: 2,
-                          initialIndex: 0,
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const TabBar(tabs: <Widget>[
-                                Tab(
-                                  child: Text(
-                                    'BUY',
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                                Tab(
-                                    child: Text('SELL',
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold)))
-                              ]),
-                              SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height / 2 - 30,
-                                child: TabBarView(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(10),
-                                      child: Form(
-                                        child: Column(
-                                          children: [
-                                            const SizedBox(height: 10),
-                                            Text('0.00',
-                                                style: const TextStyle(
-                                                    color: Colors.white)),
-                                            const Text(
-                                              'Limit Order',
-                                              style: TextStyle(
-                                                  color: Colors.white),
-                                            ),
-                                            Row(
-                                              children: [
-                                                Expanded(
-                                                  flex: 3,
-                                                  child: TextFormField(
-                                                    keyboardType:
-                                                        TextInputType.number,
-                                                    style: const TextStyle(
-                                                        color: Colors.white),
-                                                    // controller: priceController,
-                                                    decoration:
-                                                        const InputDecoration(
-                                                            hintText:
-                                                                'Enter BUY Price',
-                                                            hintStyle: TextStyle(
-                                                                color: Colors
-                                                                    .white)),
-                                                  ),
-                                                ),
-                                                const Expanded(
-                                                  flex: 1,
-                                                  child: SizedBox(
-                                                      width: 30,
-                                                      height: 30,
-                                                      child: Icon(Icons.add,
-                                                          color: Colors.white)),
-                                                ),
-                                                const Expanded(
-                                                  flex: 1,
-                                                  child: SizedBox(
-                                                    width: 30,
-                                                    height: 30,
-                                                    child: Icon(
-                                                      Icons.remove,
-                                                      color: Colors.white,
-                                                    ),
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                            TextFormField(
-                                              keyboardType:
-                                                  TextInputType.number,
-                                              style: const TextStyle(
-                                                  color: Colors.white),
-                                              // controller: amountController,
-                                              decoration: const InputDecoration(
-                                                  hintText: 'Enter Amount',
-                                                  hintStyle: TextStyle(
-                                                      color: Colors.white)),
-                                            ),
-                                            TextFormField(
-                                              style: const TextStyle(
-                                                  color: Colors.white),
-                                              decoration: const InputDecoration(
-                                                  hintText: '0.00',
-                                                  hintStyle: TextStyle(
-                                                      color: Colors.white)),
-                                            ),
-                                            const SizedBox(
-                                              height: 20,
-                                            ),
-                                            ElevatedButton(
-                                                onPressed: () {},
-                                                child: const Text('BUY'))
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(10),
-                                      child: Form(
-                                        child: Column(
-                                          children: [
-                                            Text('0.00',
-                                                style: const TextStyle(
-                                                    color: Colors.white)),
-                                            const Text(
-                                              'Limit Order',
-                                              style: TextStyle(
-                                                  color: Colors.white),
-                                            ),
-                                            Row(
-                                              children: [
-                                                Expanded(
-                                                  flex: 3,
-                                                  child: TextFormField(
-                                                    keyboardType:
-                                                        TextInputType.number,
-                                                    style: const TextStyle(
-                                                        color: Colors.white),
-                                                    // controller: priceController,
-                                                    decoration:
-                                                        const InputDecoration(
-                                                            hintText:
-                                                                'Enter SELL Price',
-                                                            hintStyle: TextStyle(
-                                                                color: Colors
-                                                                    .white)),
-                                                  ),
-                                                ),
-                                                const Expanded(
-                                                  flex: 1,
-                                                  child: SizedBox(
-                                                      width: 30,
-                                                      height: 30,
-                                                      child: Icon(Icons.add,
-                                                          color: Colors.white)),
-                                                ),
-                                                const Expanded(
-                                                  flex: 1,
-                                                  child: SizedBox(
-                                                    width: 30,
-                                                    height: 30,
-                                                    child: Icon(
-                                                      Icons.remove,
-                                                      color: Colors.white,
-                                                    ),
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                            TextFormField(
-                                              // controller: amountController,
-                                              style: const TextStyle(
-                                                  color: Colors.white),
-                                              decoration: const InputDecoration(
-                                                  hintText:
-                                                      'Enter Amount Price',
-                                                  hintStyle: TextStyle(
-                                                      color: Colors.white)),
-                                            ),
-                                            TextFormField(
-                                              style: const TextStyle(
-                                                  color: Colors.white),
-                                              decoration: const InputDecoration(
-                                                  hintText: '0.00',
-                                                  hintStyle: TextStyle(
-                                                      color: Colors.white)),
-                                            ),
-                                            ElevatedButton(
-                                                onPressed: () {},
-                                                child: const Text('SELL'))
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          )),
-                    );
-                  });
-            },
-            child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 15, horizontal: 0),
-              child: Container(
-                height: 50,
-                width: MediaQuery.of(context).size.width / 2 - 30,
-                decoration: ShapeDecoration(
-                  shape: StadiumBorder(),
-                  color: Color(0xffDDD601),
-                ),
-                child: Center(child: Text('Place Order')),
-              ),
-            ),
-          )
-        ],
       ),
     );
   }

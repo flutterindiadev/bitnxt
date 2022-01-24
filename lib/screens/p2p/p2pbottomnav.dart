@@ -1,26 +1,18 @@
+import 'package:bitnxt/global_widgets/myappbar.dart';
+import 'package:bitnxt/screens/p2p/closedorders.dart';
+import 'package:bitnxt/screens/p2p/p2pscreen.dart';
 import 'package:flutter/material.dart';
-import 'dash.dart';
-import '../market/marketscreen.dart';
-import '../my.dart';
-import '../walletscreen/walletscreen.dart';
 
-class BottomNav extends StatefulWidget {
-  const BottomNav({Key? key}) : super(key: key);
+class P2pBottomNavbar extends StatefulWidget {
+  const P2pBottomNavbar({Key? key}) : super(key: key);
+
+  static const routename = 'p2pbottom';
 
   @override
-  State<BottomNav> createState() => _BottomNavState();
-
-  static const routename = '/bottomnavbar';
+  State<P2pBottomNavbar> createState() => _P2pBottomNavbarState();
 }
 
-class _BottomNavState extends State<BottomNav> {
-  // final List<Widget> _widgetOptions = <Widget>[
-  //   Dash(gotoMarketScreen),
-  //   const MarketScreen(),
-  //   const WalletScreen(),
-  //   const MyProfileScreen()
-  // ];
-
+class _P2pBottomNavbarState extends State<P2pBottomNavbar> {
   int _selectedIndex = 0;
 
   void gotoMarketScreen() {
@@ -42,13 +34,13 @@ class _BottomNavState extends State<BottomNav> {
   Widget body() {
     switch (_selectedIndex) {
       case 0:
-        return Dash(gotoMarketScreen);
+        return const P2pScreen();
       case 1:
-        return const MarketScreen();
+        return const ClosedOrdersScreen();
       case 2:
-        return const WalletScreen();
+      // return const WalletScreen();
       case 3:
-        return const MyProfileScreen();
+      // return const MyProfileScreen();
     }
     return Container();
   }
@@ -64,19 +56,19 @@ class _BottomNavState extends State<BottomNav> {
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
-              label: 'Home',
+              label: 'Orders',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.swap_vert),
-              label: 'Market',
+              label: 'Trades',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.account_balance_wallet),
-              label: 'Funds',
+              label: 'My Orders',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.person),
-              label: 'Profile',
+              label: 'Trade History',
             ),
           ],
           type: BottomNavigationBarType.fixed,

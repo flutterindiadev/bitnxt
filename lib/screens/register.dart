@@ -40,6 +40,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     "XLM": "GBJ3YFED6YV4XMTRSWA3SR4OH5YOWI3ELRIHGGQZ5YP7TBBKOFZ5YLEM",
     "MATIC":
         "xpub6DaX7djeWH8BX5LckcqUY8L4eXyyyDVyoN41Ld4oh2xpzLmYs6SFEqaCMpBRc1TExkLg6PuEgRTfxG4aGrCADjTXDFRP1hMRowsDxJ4cirv",
+    "VC_USDT": ""
   };
 
   Future register(email, password) async {

@@ -23,7 +23,7 @@ class _OrderBookScreenState extends State<OrderBookScreen>
   Future<void> getOpenBuys() async {
     String pair1 = widget.data['pair'].toString().substring(0, 3).toUpperCase();
     String pair2 = widget.data['pair'].toString().substring(3, 6).toUpperCase();
-    Map data = {"pageSize": 10, "pair": pair1 + '/' + pair2};
+    Map data = {"pageSize": 50, "pair": pair1 + '/' + pair2};
     http
         .post(Uri.parse(AppUrl.getBuyOrder),
             headers: {
@@ -99,7 +99,7 @@ class _OrderBookScreenState extends State<OrderBookScreen>
   Widget build(BuildContext context) {
     super.build(context);
     return SizedBox(
-        height: 500,
+        height: MediaQuery.of(context).size.height * 0.8,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -122,7 +122,7 @@ class _OrderBookScreenState extends State<OrderBookScreen>
                       ],
                     ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.75,
+                      height: MediaQuery.of(context).size.height * 0.76,
                       child: ListView.builder(
                         itemCount: buyOrders.length,
                         itemBuilder: (BuildContext context, int index) {
@@ -172,7 +172,7 @@ class _OrderBookScreenState extends State<OrderBookScreen>
                       ],
                     ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.78,
+                      height: MediaQuery.of(context).size.height * 0.76,
                       child: ListView.builder(
                         itemCount: sellOrders.length,
                         itemBuilder: (BuildContext context, int index) {

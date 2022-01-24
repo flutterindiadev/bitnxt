@@ -40,6 +40,8 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserProvider>(context);
+    emailController.text = 'nitish@gmail.com';
+    passwordController.text = '123456';
     return Scaffold(
         body: Stack(children: [
       Container(
@@ -69,7 +71,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: EmailInputFieldFb3(
                     isObscure: false,
                     inputController: emailController,
-                    icon: const Icon(Icons.email),
+                    icon: const Icon(
+                      Icons.email,
+                      color: Colors.white,
+                    ),
                     hint: 'Enter Your Email',
                     inputStyle: TextInputType.emailAddress,
                   ),
@@ -88,7 +93,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: EmailInputFieldFb3(
                       isObscure: true,
                       inputController: passwordController,
-                      icon: const Icon(Icons.lock),
+                      icon: const Icon(
+                        Icons.lock,
+                        color: Colors.white,
+                      ),
                       hint: 'Enter Your Password',
                       inputStyle: TextInputType.visiblePassword,
                     )

@@ -51,7 +51,8 @@ List supportedCurrencies = [
   'ADA',
   'XRP',
   'XLM',
-  'MATIC'
+  'MATIC',
+  'USDT'
 ];
 
 class MarketCoin {

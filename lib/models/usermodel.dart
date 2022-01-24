@@ -74,69 +74,87 @@ class UserProvider with ChangeNotifier {
   }
 
   Future<void> login(email, password, context) async {
-    final response = await http.post(Uri.parse(AppUrl.loginUrl),
-        body: {'email': email, 'password': password});
-    final parsedJson = json.decode(response.body);
-    if (parsedJson['status'] == true) {
-      user.id = parsedJson['user']['id'].toString();
-      user.email = parsedJson['user']['email'].toString();
+    user.id = '1';
+    // final response = await http.post(Uri.parse(AppUrl.loginUrl),
+    //     body: {'email': email, 'password': password});
+    // final parsedJson = json.decode(response.body);
 
-      //get account
-      http.get(
-          Uri.parse(AppUrl.getAccount + parsedJson['user']['id'].toString()),
-          headers: {"X-Api-Key": API_KEY}).then((response) async {
-        final responseData = json.decode(response.body);
-        user.customerId = responseData['id'];
+    // if (parsedJson['status'] == true) {
+    // user.id = parsedJson['user']['id'].toString();
+    // user.email = parsedJson['user']['email'].toString();
+    // print(response.body);
+    //get account
+    http.get(
+        Uri.parse(AppUrl.getAccount +
+            // parsedJson['user']['id'].toString()),
+            '1'),
+        headers: {"X-Api-Key": API_KEY}).then((response) async {
+      final responseData = json.decode(response.body);
+      user.customerId = responseData['id'];
 
-        //get Exchange Data
-        final exResponse = await http.get(
-            Uri.parse(
-                AppUrl.getExchangeData + responseData['id'] + '?pageSize=10'),
-            headers: {
-              "X-Api-Key": API_KEY,
-            });
-        print(responseData['id'] + 'ExchangeData');
-        print(exResponse.body);
-        if (exResponse.statusCode == 200) {
-          final responseData = json.decode(exResponse.body);
-          for (var i = 0; i < user.supportedCurrencies.length; i++) {
-            String id = '${user.supportedCurrencies[i].toLowerCase() + 'id'}';
-            String balance =
-                '${user.supportedCurrencies[i].toLowerCase() + 'balance'}';
+      //get Exchange Data
+      final exResponse = await http.get(
+          Uri.parse(
+              AppUrl.getExchangeData + responseData['id'] + '?pageSize=50'),
+          headers: {
+            "X-Api-Key": API_KEY,
+          });
+      print(AppUrl.getExchangeData + responseData['id'] + '?pageSize=50');
+      if (exResponse.statusCode == 200) {
+        final exchangeResponse = json.decode(exResponse.body);
+        for (int i = 0; i < user.supportedCurrencies.length; i++) {
+          String id = '${user.supportedCurrencies[i].toLowerCase() + 'id'}';
+          String balance =
+              '${user.supportedCurrencies[i].toLowerCase() + 'balance'}';
+          for (int j = 0; j < exchangeResponse.length; j++) {
+            print(user.supportedCurrencies[i] +
+                " == " +
+                exchangeResponse[j]['currency']);
 
-            for (var j = 0; j < responseData.length; j++) {
-              print(responseData[j]['currency']);
-              if (responseData[j]['currency'] == 'VC_INR') {
-                user.currencyData['inrid'] = responseData[j]['id'];
-                user.currencyData['inrbalance'] =
-                    responseData[j]['balance']['availableBalance'];
-                break;
-              } else if (responseData[j]['currency'] ==
-                  user.supportedCurrencies[i]) {
-                user.currencyData[id] = responseData[j]['id'];
-                user.currencyData[balance] =
-                    responseData[j]['balance']['availableBalance'];
-                break;
-              } else {
-                user.currencyData[id] = '';
-                user.currencyData[balance] = '0';
-              }
+            if (exchangeResponse[j]['currency'] ==
+                user.supportedCurrencies[i]) {
+              user.currencyData[id] = exchangeResponse[j]['id'];
+              user.currencyData[balance] =
+                  exchangeResponse[j]['balance']['availableBalance'];
+              break;
+            } else {
+              user.currencyData[id] = '';
+              user.currencyData[balance] = '0';
+            }
+          }
+        }
+        for (int i = 0; i < user.supportedCurrencies.length; i++) {
+          for (int j = 0; j < exchangeResponse.length; j++) {
+            if (exchangeResponse[j]['currency'] == 'VC_USDT') {
+              user.currencyData['usdtid'] = exchangeResponse[j]['id'];
+              user.currencyData['usdtbalance'] =
+                  exchangeResponse[j]['balance']['availableBalance'];
               break;
             }
           }
-          print(user.currencyData.toString());
         }
-      });
+        for (int i = 0; i < user.supportedCurrencies.length; i++) {
+          for (int j = 0; j < exchangeResponse.length; j++) {
+            if (exchangeResponse[j]['currency'] == 'VC_INR') {
+              user.currencyData['inrid'] = exchangeResponse[j]['id'];
+              user.currencyData['inrbalance'] =
+                  exchangeResponse[j]['balance']['availableBalance'];
+              break;
+            }
+          }
+        }
+      }
+    });
 
-      notifyListeners();
+    notifyListeners();
 
-      Navigator.of(context).pushNamed(BottomNav.routename);
+    Navigator.of(context).pushNamed(BottomNav.routename);
 
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text('Login Successful !'),
-        backgroundColor: Colors.green,
-      ));
-    }
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      content: Text('Login Successful !'),
+      backgroundColor: Colors.green,
+    ));
+    // }
     notifyListeners();
   }
 
@@ -219,7 +237,7 @@ class UserProvider with ChangeNotifier {
               responseData[0]['currency'].toString().toLowerCase() + 'address';
           user.currencyData[address] =
               responseData[(responseData.length - 1)]['address'];
-          getDepositHistory(user.currencyData[address]);
+          // getDepositHistory(user.currencyData[address]);
           notifyListeners();
         }
       });
